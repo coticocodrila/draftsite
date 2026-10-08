@@ -1,0 +1,75 @@
+/* =========================================================
+   GEMMM — scripts compartidos
+   ========================================================= */
+
+/* ---- 1. CONFIGURACIÓN: completa estos datos y se actualizan en todo el sitio ---- */
+const GEMMM = {
+  email: 'holacoticocodrila@gmail.com',
+  // Número de WhatsApp con código de país, sin + ni espacios. Ej: '56912345678'
+  whatsapp: '',
+  whatsappMsg: 'Hola GEMMM, quiero cotizar un proyecto.',
+  // Link de tu agenda (Calendly, Google Calendar, Cal.com). Ej: 'https://calendly.com/gemmm/30min'
+  agenda: ''
+};
+
+(function () {
+  const mail = 'mailto:' + GEMMM.email + '?subject=' + encodeURIComponent('Proyecto GEMMM');
+  const wa = GEMMM.whatsapp ? 'https://wa.me/' + GEMMM.whatsapp + '?text=' + encodeURIComponent(GEMMM.whatsappMsg) : '';
+
+  // Botones de agenda: si no hay link de agenda, abren un correo
+  document.querySelectorAll('[data-cta="agenda"]').forEach(a => {
+    a.href = GEMMM.agenda || mail;
+    if (GEMMM.agenda) { a.target = '_blank'; a.rel = 'noopener'; }
+  });
+  // Botones de WhatsApp: si no hay número, se ocultan (o pasan a correo si tienen data-fallback)
+  document.querySelectorAll('[data-cta="whatsapp"]').forEach(a => {
+    if (wa) { a.href = wa; a.target = '_blank'; a.rel = 'noopener'; }
+    else if (a.hasAttribute('data-fallback')) { a.href = mail; }
+    else { a.hidden = true; }
+  });
+  document.querySelectorAll('[data-email]').forEach(el => { el.textContent = GEMMM.email; if (el.tagName === 'A') el.href = 'mailto:' + GEMMM.email; });
+
+  /* ---- 2. Menú móvil ---- */
+  const burger = document.querySelector('.nav__burger');
+  const menu = document.querySelector('.nav__menu');
+  if (burger && menu) {
+    burger.addEventListener('click', () => burger.setAttribute('aria-expanded', menu.classList.toggle('open')));
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { menu.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); }));
+  }
+
+  /* ---- 3. Filtros de proyectos ---- */
+  const filters = document.querySelectorAll('.filter');
+  filters.forEach(b => b.addEventListener('click', () => {
+    filters.forEach(x => x.setAttribute('aria-pressed', 'false'));
+    b.setAttribute('aria-pressed', 'true');
+    document.querySelectorAll('.card').forEach(c => c.hidden = b.dataset.f !== 'todo' && c.dataset.c !== b.dataset.f);
+  }));
+
+  /* ---- 4. Año en el pie ---- */
+  document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
+
+  /* ---- 5. Animaciones (GSAP + ScrollTrigger) ---- */
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const counters = document.querySelectorAll('[data-count]');
+  const formatNum = n => n.toLocaleString('es-CL');
+
+  if (!reduce && window.gsap && window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+    document.documentElement.classList.add('js-anim');
+    gsap.utils.toArray('[data-reveal]').forEach(el => {
+      gsap.to(el, { opacity: 1, y: 0, duration: .8, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true } });
+    });
+    counters.forEach(el => {
+      const end = parseFloat(el.dataset.count), obj = { v: 0 }, suf = el.dataset.suffix || '';
+      ScrollTrigger.create({ trigger: el, start: 'top 90%', once: true, onEnter: () =>
+        gsap.to(obj, { v: end, duration: 1.6, ease: 'power2.out', onUpdate: () => el.textContent = formatNum(Math.round(obj.v)) + suf }) });
+    });
+    gsap.utils.toArray('.hero__shapes span').forEach((s, i) => {
+      gsap.to(s, { yPercent: (i % 2 ? -18 : 14), rotate: (i % 2 ? -6 : 5), ease: 'none',
+        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+    });
+  } else {
+    counters.forEach(el => el.textContent = formatNum(parseFloat(el.dataset.count)) + (el.dataset.suffix || ''));
+  }
+})();
