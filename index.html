@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/gemmm.css?v=25">
+<link rel="stylesheet" href="assets/css/gemmm.css?v=30">
 
 <!-- Google Analytics: reemplaza G-XXXXXXX por tu ID y quita los comentarios
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
@@ -96,8 +96,8 @@
       <a class="card r-sq t5" data-c="marcas">
         <div class="cover" style="background:var(--lilac)"><span class="ph">VA</span><span class="cover__curtain" aria-hidden="true"><span class="cover__name">Varsovienne</span><span class="cover__sub">Dirección de arte · Redes</span></span></div>
       </a>
-      <a class="card r-tall t2" data-c="marcas">
-        <div class="cover" style="background:var(--lime)"><span class="ph">BA</span><span class="cover__curtain" aria-hidden="true"><span class="cover__name">Ballerina</span><span class="cover__sub">Sistema visual · Redes</span></span></div>
+      <a class="card r-tall t2" data-c="marcas" href="proyectos/420-genetics.html">
+        <div class="cover" style="background:var(--lime)"><img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/52150e230944027.688004b76055c.jpg" alt="Packaging de 420 Genetics" width="1400" height="923" loading="lazy"><span class="ph">420</span><span class="cover__curtain" aria-hidden="true"><span class="cover__name">420 Genetics</span><span class="cover__sub">Ver proyecto →</span></span></div>
       </a>
     </div>
     <a class="btn" href="https://www.behance.net/constanzagemm" target="_blank" rel="noopener">Más en Behance ↗</a>
@@ -156,7 +156,7 @@
       <h2 class="h-xl cta__title">Trabajemos <b class="hl">juntos.</b></h2>
       <p class="cta__lead">Cuéntame qué tienes en mente: una marca nueva, un sitio o una idea que necesita moverse. Lo conversamos y te propongo cómo hacerlo realidad.</p>
       <div class="cta__actions">
-        <a class="btn btn--primary btn--lg" href="mailto:holacoticocodrila@gmail.com?subject=Proyecto%20con%20GEMMM">Contacto</a>
+        <a class="cta__link" href="mailto:holacoticocodrila@gmail.com?subject=Proyecto%20con%20GEMMM">Contacto <span aria-hidden="true">→</span></a>
         <a class="btn btn--lg" data-cta="whatsapp" href="#">WhatsApp</a>
       </div>
     </div>
@@ -166,15 +166,29 @@
 </main>
 
 <!-- ================= FOOTER ================= -->
-<footer class="footer">
-  <div class="wrap footer__min">
-    <a href="index.html" aria-label="GEMMM, inicio"><img src="assets/img/gemmm-logo-ink.svg" alt="GEMMM" width="84" height="57"></a>
-    <nav class="footer__links" aria-label="Contacto">
-      <a href="mailto:holacoticocodrila@gmail.com">Contacto</a>
-      <a href="https://www.behance.net/constanzagemm" target="_blank" rel="noopener">Behance</a>
-      <a href="https://www.instagram.com/gemmstudio.cl" target="_blank" rel="noopener">Instagram</a>
-    </nav>
-    <span class="muted footer__meta">Santiago, Chile · <span data-clock>--:--</span><br>© <span data-year>2026</span> GEMMM</span>
+<footer class="footer foot2">
+  <div class="wrap foot2__top">
+    <div class="foot2__brand">
+      <a href="index.html" aria-label="GEMMM, inicio"><img src="assets/img/gemmm-logo-ink.svg" alt="GEMMM" width="84" height="57"></a>
+      <nav class="foot2__links" aria-label="Redes">
+        <a href="https://www.behance.net/constanzagemm" target="_blank" rel="noopener">Behance ↗</a>
+        <a href="https://www.instagram.com/gemmstudio.cl" target="_blank" rel="noopener">Instagram ↗</a>
+      </nav>
+    </div>
+    <div class="foot2__news">
+      <h2 class="foot2__label">Newsletter</h2>
+      <p class="foot2__text">Ideas, proyectos y recursos de diseño. Sin spam.</p>
+      <form class="news__form" data-newsletter novalidate>
+        <label class="sr-only" for="nl-email">Tu correo</label>
+        <input id="nl-email" type="email" name="fields[email]" placeholder="tu@correo.cl" autocomplete="email" required>
+        <button class="btn btn--primary" type="submit">Suscribirme</button>
+      </form>
+      <p class="news__msg" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+  <div class="wrap foot2__bottom">
+    <span>© <span data-year>2026</span> GEMMM</span>
+    <span>Santiago, Chile · <span data-clock>--:--</span></span>
   </div>
 </footer>
 
@@ -185,7 +199,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
-<script src="assets/js/main.js?v=17" defer></script>
+<script src="assets/js/main.js?v=19" defer></script>
 </body>
 </html>

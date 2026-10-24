@@ -11,7 +11,10 @@ const GEMMM = {
   // Link de tu agenda (Calendly, Google Calendar, Cal.com). Ej: 'https://calendly.com/gemmm/30min'
   agenda: '',
   // Valor de la UF para mostrar precios aproximados en pesos. Actualízalo de vez en cuando (sii.cl)
-  uf: 41123
+  uf: 41123,
+  // Newsletter (MailerLite): pega aquí la URL del formulario incrustado. Ej:
+  // 'https://assets.mailerlite.com/jsonp/123456/forms/987654321/subscribe'
+  newsletter: ''
 };
 
 (function () {
@@ -114,6 +117,24 @@ const GEMMM = {
     show(); if (!calm) setInterval(show, 2200);
   }
 
+  /* ---- Newsletter ---- */
+  document.querySelectorAll('[data-newsletter]').forEach(form => {
+    const msg = form.parentElement.querySelector('.news__msg');
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const email = form.querySelector('input[type=email]');
+      if (!email.value || !email.checkValidity()) { msg.textContent = 'Revisa tu correo, parece que falta algo.'; email.focus(); return; }
+      if (!GEMMM.newsletter) { msg.textContent = 'El newsletter estará disponible muy pronto. ¡Gracias por tu interés!'; return; }
+      const data = new FormData(form); data.append('ml-submit', '1'); data.append('anticsrf', 'true');
+      const btn = form.querySelector('button'); btn.disabled = true;
+      try {
+        await fetch(GEMMM.newsletter, { method: 'POST', body: data, mode: 'no-cors' });
+        form.reset(); msg.textContent = '¡Listo! Revisa tu correo para confirmar la suscripción.';
+      } catch (err) { msg.textContent = 'No pudimos suscribirte. Inténtalo de nuevo en un momento.'; }
+      btn.disabled = false;
+    });
+  });
+
   /* ---- 4. Año en el pie ---- */
   document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
 
@@ -124,20 +145,6 @@ const GEMMM = {
 
   if (!reduce && window.gsap && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
-    // Scroll suave (Lenis) sincronizado con las animaciones
-    if (window.Lenis) {
-      const lenis = new Lenis({ duration: 1.15, easing: t => 1 - Math.pow(1 - t, 4), smoothWheel: true });
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add(time => lenis.raf(time * 1000));
-      gsap.ticker.lagSmoothing(0);
-      document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
-        const id = a.getAttribute('href');
-        if (id.length < 2) return;
-        const el = document.querySelector(id);
-        if (el) { e.preventDefault(); lenis.scrollTo(el, { offset: -80, duration: 1.4 }); }
-      }));
-      window.gemmmLenis = lenis;
-    }
     // Curva propia de GEMMM: entra rápido y se asienta con un pequeño rebote
     let EASE = 'power3.out';
     if (window.CustomEase) {
