@@ -1077,3 +1077,16 @@ h2.xcontact__title{font-family:var(--font-display);font-size:clamp(2.6rem,10.5vw
 @keyframes aaW{0%,100%{font-weight:300;font-variation-settings:"wght" 300}50%{font-weight:900;font-variation-settings:"wght" 900}}
 @media (prefers-reduced-motion:reduce){.tcard__art--pal i,.tcard__aa{animation:none!important}}
 @media (max-width:820px){.xbadge{display:none}}
+
+/* ===== v48: jerarquía del inicio en mobile ===== */
+.xdown__m{display:none}
+@media (max-width:820px){
+  .xhero .wrap{display:flex;flex-direction:column;align-items:center}
+  .xkicker{order:0}
+  .xlead{order:1;margin:6px 0 0;font-size:clamp(2rem,9.5vw,2.6rem);line-height:1.08}
+  h1.xtitle{order:2;margin-top:22px;font-size:clamp(1.3rem,6.2vw,1.7rem);line-height:1.15}
+  .xhero__foot{order:3}
+  .xdown__d{display:none}.xdown__m{display:inline}
+}
+.xdown .xdown__m{display:none}
+@media (max-width:820px){.xdown .xdown__d{display:none}.xdown .xdown__m{display:inline}}
