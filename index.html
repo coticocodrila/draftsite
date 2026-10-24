@@ -11,12 +11,13 @@
 <meta property="og:description" content="Identidad, animación y diseño digital para marcas, instituciones y emprendimientos.">
 <meta property="og:url" content="https://gemmm.cl/">
 <meta property="og:image" content="https://gemmm.cl/assets/img/og-image.jpg">
-<meta name="theme-color" content="#5EC066">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light">
 <link rel="icon" href="assets/img/gemmm-logo-ink.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/gemmm.css?v=14">
+<link rel="stylesheet" href="assets/css/gemmm.css?v=25">
 
 <!-- Google Analytics: reemplaza G-XXXXXXX por tu ID y quita los comentarios
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
@@ -35,7 +36,7 @@
   "email":"holacoticocodrila@gmail.com",
   "areaServed":"CL",
   "founder":{"@type":"Person","name":"Constanza Leiva Aguirre","jobTitle":"Directora creativa"},
-  "sameAs":["https://www.behance.net/constanzagemm","https://www.linkedin.com/in/coticocodrila/"],
+  "sameAs":["https://www.behance.net/constanzagemm","https://www.instagram.com/gemmstudio.cl"],
   "priceRange":"$$"
 }
 </script>
@@ -50,6 +51,7 @@
     <ul class="nav__menu" id="menu">
       <li><a href="#proyectos">Proyectos</a></li>
       <li><a href="#servicios">Servicios</a></li>
+      <li><a href="animacion.html">Animación</a></li>
       <li><a href="estudio.html">Estudio</a></li>
       <li><a href="herramientas.html">Herramientas</a></li>
     </ul>
@@ -67,12 +69,7 @@
     <div class="hero__text">
       <h1 class="h-xl hero__title">Estudio de <b class="hl">diseño</b>, <b>animación</b> y <b>web.</b></h1>
       <p class="lead">15 años creando identidad, ilustración en movimiento y experiencias para marcas e instituciones.</p>
-      <div class="hero__actions">
-        <a class="btn btn--primary" href="#proyectos">Ver proyectos</a>
-        <a class="btn" href="#contacto">Contacto</a>
-      </div>
     </div>
-    <figure class="hero__art" data-reveal><img src="https://www.coticocodrila.com/wp-content/uploads/2024/10/Ilustracion_sin_titulo-13.gif" alt="Ilustración animada: una paracaidista cae junto al logo de GEMMM" width="1114" height="1967"></figure>
   </div>
 </header>
 
@@ -85,34 +82,29 @@
     <!-- Para agregar imagen: dentro de <div class="cover"> pon <img src="img/portadas/archivo.jpg" alt="..." loading="lazy"> antes del <span class="ph"> -->
     <div class="grid">
       <a class="card r-xtall t4" data-c="territorio" href="proyectos/rutas-distrito-bac.html">
-        <div class="cover" style="background:var(--lime)"><span class="ph">BAC</span></div>
-        <h3>Rutas Distrito BAC</h3><p>Mapa interactivo · Web</p>
+        <div class="cover" style="background:var(--lime)"><img src="img/portadas/bac.jpg?v=3" alt="Casa amarilla en los cerros de Valparaíso" width="1200" height="1500" loading="lazy"><span class="ph">BAC</span><span class="cover__curtain" aria-hidden="true"><span class="cover__name">Rutas Distrito BAC</span><span class="cover__sub">Ver proyecto →</span></span></div>
       </a>
-      <a class="card r-land t2" data-c="cultura">
-        <div class="cover" style="background:var(--violet)"><span class="ph">MA</span></div>
-        <h3>Manual iconográfico Andacollo</h3><p>Sistema iconográfico</p>
+      <a class="card r-land t2" data-c="marcas" href="proyectos/emporio-organika.html">
+        <div class="cover" style="background:var(--violet)"><img src="img/portadas/emporio-organika.jpg" alt="Campo de lavanda, ingrediente de Emporio Orgánika" width="1200" height="1500" loading="lazy"><span class="ph">EO</span><span class="cover__curtain" aria-hidden="true"><span class="cover__name">Emporio Orgánika</span><span class="cover__sub">Ver proyecto →</span></span></div>
       </a>
-      <a class="card r-sq t6" data-c="emprende">
-        <div class="cover" style="background:var(--lime)"><span class="ph">PB</span></div>
-        <h3>Panbo</h3><p>Packaging · Línea de productos</p>
+      <a class="card r-sq t6" data-c="emprende" href="proyectos/panbo.html">
+        <div class="cover" style="background:var(--lime)"><img src="img/portadas/panbo.jpg" alt="Pan Panbo en rebanadas" width="1200" height="1500" loading="lazy"><span class="ph">PB</span><span class="cover__curtain" aria-hidden="true"><span class="cover__name">Panbo</span><span class="cover__sub">Ver proyecto →</span></span></div>
       </a>
       <a class="card r-tall t5" data-c="emprende">
-        <div class="cover" style="background:var(--violet)"><span class="ph">CR</span></div>
-        <h3>Cápsulas CRDP</h3><p>Animación · 11 cápsulas</p>
+        <div class="cover" style="background:var(--violet)"><span class="ph">CR</span><span class="cover__curtain" aria-hidden="true"><span class="cover__name">Cápsulas CRDP</span><span class="cover__sub">Animación · 11 cápsulas</span></span></div>
       </a>
       <a class="card r-sq t5" data-c="marcas">
-        <div class="cover" style="background:var(--lilac)"><span class="ph">VA</span></div>
-        <h3>Varsovienne</h3><p>Dirección de arte · Redes</p>
+        <div class="cover" style="background:var(--lilac)"><span class="ph">VA</span><span class="cover__curtain" aria-hidden="true"><span class="cover__name">Varsovienne</span><span class="cover__sub">Dirección de arte · Redes</span></span></div>
       </a>
       <a class="card r-tall t2" data-c="marcas">
-        <div class="cover" style="background:var(--lime)"><span class="ph">BA</span></div>
-        <h3>Ballerina</h3><p>Sistema visual · Redes</p>
+        <div class="cover" style="background:var(--lime)"><span class="ph">BA</span><span class="cover__curtain" aria-hidden="true"><span class="cover__name">Ballerina</span><span class="cover__sub">Sistema visual · Redes</span></span></div>
       </a>
     </div>
     <a class="btn" href="https://www.behance.net/constanzagemm" target="_blank" rel="noopener">Más en Behance ↗</a>
   </div>
 </section>
 
+<!-- SECCIÓN ANIMACIÓN OCULTA (para volver a mostrarla, quita estos comentarios)
 <section class="section" id="animacion" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head" data-reveal>
@@ -128,53 +120,44 @@
     </div>
   </div>
 </section>
+-->
 
-<section class="section section--gray" id="servicios">
+<section class="section" id="servicios">
   <div class="wrap">
     <div class="sec-head" data-reveal>
-      <div><span class="eyebrow">Servicios</span><h2 class="h-lg">Tres áreas. <b>Un mismo criterio.</b></h2></div>
+      <div><span class="eyebrow">Servicios</span><h2 class="h-lg">Lo que <b>hacemos.</b></h2></div>
     </div>
-    <div class="areas">
-      <article class="area" data-reveal>
-        <span class="area__bg" aria-hidden="true"></span>
-        <div class="area__content">
-        <span class="area__n">01</span>
-        <h3>Marca</h3>
-        <p class="muted">Una identidad que se reconoce en todas partes: logo, sistema, manual y logo animado.</p>
-        <a class="area__go" href="servicios/identidad-esencial.html" aria-label="Ver servicios de Marca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-      </div>
-      </article>
-      <article class="area" data-reveal>
-        <span class="area__bg" aria-hidden="true"></span>
-        <div class="area__content">
-        <span class="area__n">02</span>
-        <h3>Web y experiencias</h3>
-        <p class="muted">Sitios, tiendas y mapas con una función clara: presentar, vender o recorrer.</p>
-        <a class="area__go" href="servicios/diseno-web.html" aria-label="Ver servicios de Web y experiencias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-      </div>
-      </article>
-      <article class="area" data-reveal>
-        <span class="area__bg" aria-hidden="true"></span>
-        <div class="area__content">
-        <span class="area__n">03</span>
-        <h3>Animación</h3>
-        <p class="muted">Video 2D e ilustración animada para explicar en segundos y que se recuerde.</p>
-        <a class="area__go" href="servicios/animacion-explicativa.html" aria-label="Ver servicios de Animación"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-      </div>
-      </article>
-    </div>
+    <ul class="srv" data-reveal>
+      <li><a class="srv__row srv--green" href="servicios/identidad-esencial.html">
+        <span class="srv__fill" aria-hidden="true"></span>
+        <span class="srv__name">Marca</span>
+        <span class="srv__desc">Branding, packaging, editorial e ilustración.</span>
+        <span class="srv__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+      </a></li>
+      <li><a class="srv__row srv--blue" href="servicios/diseno-web.html">
+        <span class="srv__fill" aria-hidden="true"></span>
+        <span class="srv__name">Web y experiencias</span>
+        <span class="srv__desc">Sitios, tiendas y mapas interactivos con una función clara.</span>
+        <span class="srv__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+      </a></li>
+      <li><a class="srv__row srv--ink" href="servicios/animacion-explicativa.html">
+        <span class="srv__fill" aria-hidden="true"></span>
+        <span class="srv__name">Animación</span>
+        <span class="srv__desc">Animación 2D, ilustración animada y edición de video.</span>
+        <span class="srv__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+      </a></li>
+    </ul>
   </div>
 </section>
 
 <section class="section" id="contacto">
   <div class="wrap">
     <div class="cta" data-reveal>
-      <span class="eyebrow">Contacto</span>
-      <h2 class="h-xl">Trabajemos <b class="hl">juntos.</b></h2>
-      <p class="cta__mail">Escribe a <a data-email href="mailto:holacoticocodrila@gmail.com">holacoticocodrila@gmail.com</a></p>
+      <h2 class="h-xl cta__title">Trabajemos <b class="hl">juntos.</b></h2>
+      <p class="cta__lead">Cuéntame qué tienes en mente: una marca nueva, un sitio o una idea que necesita moverse. Lo conversamos y te propongo cómo hacerlo realidad.</p>
       <div class="cta__actions">
-        <a class="btn btn--primary" data-cta="agenda" href="mailto:holacoticocodrila@gmail.com">Agendar reunión</a>
-        <a class="btn" data-cta="whatsapp" data-fallback href="mailto:holacoticocodrila@gmail.com">WhatsApp</a>
+        <a class="btn btn--primary btn--lg" href="mailto:holacoticocodrila@gmail.com?subject=Proyecto%20con%20GEMMM">Contacto</a>
+        <a class="btn btn--lg" data-cta="whatsapp" href="#">WhatsApp</a>
       </div>
     </div>
   </div>
@@ -187,9 +170,9 @@
   <div class="wrap footer__min">
     <a href="index.html" aria-label="GEMMM, inicio"><img src="assets/img/gemmm-logo-ink.svg" alt="GEMMM" width="84" height="57"></a>
     <nav class="footer__links" aria-label="Contacto">
-      <a data-email href="mailto:holacoticocodrila@gmail.com">holacoticocodrila@gmail.com</a>
+      <a href="mailto:holacoticocodrila@gmail.com">Contacto</a>
       <a href="https://www.behance.net/constanzagemm" target="_blank" rel="noopener">Behance</a>
-      <a href="https://www.linkedin.com/in/coticocodrila/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.instagram.com/gemmstudio.cl" target="_blank" rel="noopener">Instagram</a>
     </nav>
     <span class="muted footer__meta">Santiago, Chile · <span data-clock>--:--</span><br>© <span data-year>2026</span> GEMMM</span>
   </div>
@@ -202,6 +185,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js" defer></script>
-<script src="assets/js/main.js?v=13" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script src="assets/js/main.js?v=17" defer></script>
 </body>
 </html>

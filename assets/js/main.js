@@ -58,6 +58,62 @@ const GEMMM = {
   const tick = () => { const h = new Intl.DateTimeFormat('es-CL',{hour:'2-digit',minute:'2-digit',timeZone:'America/Santiago'}).format(new Date()); clocks.forEach(c => c.textContent = h); };
   if (clocks.length) { tick(); setInterval(tick, 30000); }
 
+  /* ---- Servicios: vista previa animada que sigue al cursor ---- */
+  const prev = document.querySelector('.srv__preview');
+  if (prev && window.matchMedia('(hover: hover)').matches && window.gsap) {
+    const xTo = gsap.quickTo(prev, 'x', { duration: .5, ease: 'power3.out' });
+    const yTo = gsap.quickTo(prev, 'y', { duration: .5, ease: 'power3.out' });
+    document.querySelectorAll('.srv__row').forEach((row, i) => {
+      row.addEventListener('mouseenter', () => {
+        prev.src = row.dataset.gif;
+        gsap.to(prev, { opacity: 1, scale: 1, rotate: i % 2 ? 4 : -4, duration: .5, ease: gsap.parseEase('gemmm') ? 'gemmm' : 'back.out(1.6)' });
+      });
+      row.addEventListener('mouseleave', () => gsap.to(prev, { opacity: 0, scale: .6, duration: .3, ease: 'power2.in' }));
+      row.addEventListener('mousemove', e => { xTo(e.clientX + 24); yTo(e.clientY - 110); });
+    });
+  }
+
+  /* ---- Menú: marca la página activa ---- */
+  (function () {
+    const path = location.pathname;
+    document.querySelectorAll('.nav__menu a').forEach(a => {
+      const href = a.getAttribute('href') || '';
+      const file = href.split('#')[0].split('/').pop();
+      const hash = href.includes('#') ? href.split('#')[1] : '';
+      const here = path.split('/').pop() || 'index.html';
+      let on = !hash && file && file === here;
+      if (/\/herramientas\//.test(path) && file === 'herramientas.html') on = true;
+      if (/\/servicios\//.test(path) && hash === 'servicios') on = true;
+      if (/\/proyectos\//.test(path) && hash === 'proyectos') on = true;
+      if (on) a.setAttribute('aria-current', 'page');
+    });
+  })();
+
+  /* ---- Herramientas: vistas previas vivas ---- */
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const palPrev = document.querySelector('[data-pal-preview]');
+  if (palPrev) {
+    const sw = palPrev.querySelectorAll('span');
+    const paint = () => {
+      const h = Math.random() * 360, step = [0, 25, 50, 180, 200][Math.floor(Math.random() * 5)];
+      const ls = [22, 45, 62, 78, 92];
+      sw.forEach((s, i) => s.style.backgroundColor = `hsl(${(h + (i % 2 ? step : i * 12)) % 360} ${55 + Math.random() * 30}% ${ls[i]}%)`);
+    };
+    paint(); if (!calm) setInterval(paint, 2600);
+  }
+  const typePrev = document.querySelector('[data-type-preview]');
+  if (typePrev) {
+    const pairs = [['Unbounded','DM Sans'],['Syne','Inter'],['Fraunces','Work Sans'],['Bricolage Grotesque','IBM Plex Sans'],['Archivo Black','Karla'],['DM Serif Display','Manrope'],['Playfair Display','Inter'],['Space Grotesk','Lora'],['Bebas Neue','Work Sans'],['Rubik','Karla']];
+    const aa = typePrev.querySelector('.toolcard__aa'), pr = typePrev.querySelector('.toolcard__pair');
+    let k = 0;
+    const show = () => {
+      const [t, b] = pairs[k++ % pairs.length];
+      aa.style.opacity = 0; pr.style.opacity = 0;
+      setTimeout(() => { aa.style.fontFamily = `'${t}', sans-serif`; pr.style.fontFamily = `'${b}', sans-serif`; pr.textContent = `${t} + ${b}`; aa.style.opacity = 1; pr.style.opacity = 1; }, 350);
+    };
+    show(); if (!calm) setInterval(show, 2200);
+  }
+
   /* ---- 4. Año en el pie ---- */
   document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
 
@@ -68,6 +124,20 @@ const GEMMM = {
 
   if (!reduce && window.gsap && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
+    // Scroll suave (Lenis) sincronizado con las animaciones
+    if (window.Lenis) {
+      const lenis = new Lenis({ duration: 1.15, easing: t => 1 - Math.pow(1 - t, 4), smoothWheel: true });
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(time => lenis.raf(time * 1000));
+      gsap.ticker.lagSmoothing(0);
+      document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+        const id = a.getAttribute('href');
+        if (id.length < 2) return;
+        const el = document.querySelector(id);
+        if (el) { e.preventDefault(); lenis.scrollTo(el, { offset: -80, duration: 1.4 }); }
+      }));
+      window.gemmmLenis = lenis;
+    }
     // Curva propia de GEMMM: entra rápido y se asienta con un pequeño rebote
     let EASE = 'power3.out';
     if (window.CustomEase) {
@@ -76,6 +146,11 @@ const GEMMM = {
       EASE = 'gemmm';
     }
     document.documentElement.classList.add('js-anim');
+    // Fichas de proyectos: entrada escalonada, una tras otra
+    ScrollTrigger.batch('.grid .card', {
+      start: 'top 90%', once: true,
+      onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: .9, stagger: .12, ease: EASE })
+    });
     gsap.utils.toArray('[data-reveal]').forEach(el => {
       gsap.to(el, { opacity: 1, y: 0, duration: .9, ease: EASE,
         scrollTrigger: { trigger: el, start: 'top 88%', once: true } });
