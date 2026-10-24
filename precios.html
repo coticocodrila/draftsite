@@ -14,7 +14,7 @@
 <meta name="color-scheme" content="light">
 <link rel="icon" href="assets/img/gemmm-logo-ink.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/gemmm.css?v=30">
+<link rel="stylesheet" href="assets/css/gemmm.css?v=42">
 </head>
 <body>
 <a class="skip" href="#main">Saltar al contenido</a>
@@ -26,10 +26,10 @@
       <li><a href="index.html#servicios">Servicios</a></li>
       <li><a href="animacion.html">Animación</a></li>
       <li><a href="estudio.html">Estudio</a></li>
-      <li><a href="herramientas.html">Herramientas</a></li>
     </ul>
     <div class="nav__right">
-      <a class="btn btn--primary" href="#contacto">Contacto</a>
+      <button class="nav__remix" type="button" data-remix aria-label="Cambiar los colores del sitio" title="Cambiar colores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 4h6v6H4zM14 14h6v6h-6z"/><path d="M14 4h6v6h-6z" fill="currentColor"/><path d="M4 14h6v6H4z" fill="currentColor"/></svg><span>Remezclar colores</span></button>
+      <a class="nav__cta" href="#contacto">Hablemos</a>
       <button class="nav__burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span></button>
     </div>
   </div>
@@ -179,6 +179,7 @@
       <p class="cta__lead">Cuéntame qué tienes en mente: una marca nueva, un sitio o una idea que necesita moverse. Lo conversamos y te propongo cómo hacerlo realidad.</p>
       <div class="cta__actions">
         <a class="cta__link" href="mailto:holacoticocodrila@gmail.com?subject=Proyecto%20con%20GEMMM">Contacto <span aria-hidden="true">→</span></a>
+        <button class="cta__copy" type="button" data-copy-email>Copiar correo</button>
         <a class="btn btn--lg" data-cta="whatsapp" href="#">WhatsApp</a>
       </div>
     </div>
@@ -189,12 +190,14 @@
   <div class="wrap foot2__top">
     <div class="foot2__brand">
       <a href="index.html" aria-label="GEMMM, inicio"><img src="assets/img/gemmm-logo-ink.svg" alt="GEMMM" width="84" height="57"></a>
-      <nav class="foot2__links" aria-label="Redes">
+      <nav class="foot2__links" aria-label="Enlaces">
+        <a href="herramientas.html">Herramientas</a>
+        <a href="blog/index.html">Blog</a>
         <a href="https://www.behance.net/constanzagemm" target="_blank" rel="noopener">Behance ↗</a>
         <a href="https://www.instagram.com/gemmstudio.cl" target="_blank" rel="noopener">Instagram ↗</a>
       </nav>
     </div>
-    <div class="foot2__news">
+    <div class="foot2__news" hidden>
       <h2 class="foot2__label">Newsletter</h2>
       <p class="foot2__text">Ideas, proyectos y recursos de diseño. Sin spam.</p>
       <form class="news__form" data-newsletter novalidate>
@@ -214,6 +217,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js" defer></script>
-<script src="assets/js/main.js?v=19" defer></script>
+<script src="assets/js/main.js?v=27" defer></script>
 </body>
 </html>

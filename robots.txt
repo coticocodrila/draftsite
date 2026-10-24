@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /precios.html
+Disallow: /contenido/
+
+Sitemap: https://gemmm.cl/sitemap.xml

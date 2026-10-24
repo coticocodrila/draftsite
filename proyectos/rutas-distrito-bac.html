@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mapa interactivo para las rutas de Distrito BAC: De Tapas y Café de Barrio | GEMMM</title>
-<meta name="description" content="Caso de estudio: cómo diseñamos un mapa interactivo propio para las rutas gastronómicas de Distrito BAC en Valparaíso, con registro, verificación de visitas y datos por edición.">
+<meta name="description" content="Caso de estudio: cómo diseñé un mapa interactivo propio para las rutas gastronómicas de Distrito BAC en Valparaíso, con registro, verificación de visitas y datos por edición.">
 <link rel="canonical" href="https://gemmm.cl/proyectos/rutas-distrito-bac.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Caso: mapa interactivo para las rutas de Distrito BAC">
@@ -13,7 +13,7 @@
 <link rel="icon" href="../assets/img/gemmm-logo-ink.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/gemmm.css?v=30">
+<link rel="stylesheet" href="../assets/css/gemmm.css?v=42">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"Mapa interactivo para las rutas de Distrito BAC: De Tapas y Café de Barrio","author":{"@type":"Person","name":"Constanza Leiva Aguirre"},"publisher":{"@id":"https://gemmm.cl/#organization"},"datePublished":"2026-10-08","inLanguage":"es-CL"}
 </script>
@@ -28,10 +28,10 @@
       <li><a href="../index.html#servicios">Servicios</a></li>
       <li><a href="../animacion.html">Animación</a></li>
       <li><a href="../estudio.html">Estudio</a></li>
-      <li><a href="../herramientas.html">Herramientas</a></li>
     </ul>
     <div class="nav__right">
-      <a class="btn btn--primary" href="#contacto">Contacto</a>
+      <button class="nav__remix" type="button" data-remix aria-label="Cambiar los colores del sitio" title="Cambiar colores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 4h6v6H4zM14 14h6v6h-6z"/><path d="M14 4h6v6h-6z" fill="currentColor"/><path d="M4 14h6v6H4z" fill="currentColor"/></svg><span>Remezclar colores</span></button>
+      <a class="nav__cta" href="#contacto">Hablemos</a>
       <button class="nav__burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span></button>
     </div>
   </div>
@@ -59,7 +59,7 @@
       <ol>
         <li><a href="#punto-de-partida">Punto de partida</a></li>
         <li><a href="#decisiones">Decisiones clave</a></li>
-        <li><a href="#que-construimos">Qué construimos</a></li>
+        <li><a href="#que-construimos">Qué construí</a></li>
         <li><a href="#resultados">Resultados</a></li>
       </ol>
     </aside>
@@ -81,7 +81,7 @@
       <h2 id="decisiones">Decisiones clave</h2>
       <div class="decision">
         <h3>1. Un mapa propio en vez de una herramienta genérica</h3>
-        <p>Migramos de uMap a un mapa construido con librerías abiertas (Leaflet y MapLibre), alojado en el sitio del gremio. Así controlamos el diseño, los filtros y, sobre todo, los datos, y podemos medirlo junto con el resto del sitio en Google Analytics.</p>
+        <p>Migré de uMap a un mapa construido con librerías abiertas (Leaflet y MapLibre), alojado en el sitio del gremio. Así el gremio controla el diseño, los filtros y, sobre todo, los datos, y puede medirlo junto con el resto del sitio en Google Analytics.</p>
       </div>
       <div class="decision">
         <h3>2. Verificar visitas por ubicación, no con códigos QR</h3>
@@ -96,7 +96,7 @@
         <p>De Tapas y Café de Barrio tienen su propia planilla y su propio script, para que los datos no se mezclen. Dentro de cada una, las ediciones quedan en pestañas por año, listas para comparar.</p>
       </div>
 
-      <h2 id="que-construimos">Qué construimos</h2>
+      <h2 id="que-construimos">Qué construí</h2>
       <h3>Identidad de cada ruta</h3>
       <p>Cada ruta tiene su paleta y sus piezas, dentro de la identidad del gremio, para que se reconozca en Instagram, en los locales y en el mapa.</p>
       <div class="figure" style="background:var(--lime)">Piezas de la ruta De Tapas</div>
@@ -137,6 +137,7 @@
       <p class="cta__lead">Cuéntame qué tienes en mente: una marca nueva, un sitio o una idea que necesita moverse. Lo conversamos y te propongo cómo hacerlo realidad.</p>
       <div class="cta__actions">
         <a class="cta__link" href="mailto:holacoticocodrila@gmail.com?subject=Proyecto%20con%20GEMMM">Contacto <span aria-hidden="true">→</span></a>
+        <button class="cta__copy" type="button" data-copy-email>Copiar correo</button>
         <a class="btn btn--lg" data-cta="whatsapp" href="#">WhatsApp</a>
       </div>
     </div>
@@ -148,12 +149,14 @@
   <div class="wrap foot2__top">
     <div class="foot2__brand">
       <a href="../index.html" aria-label="GEMMM, inicio"><img src="../assets/img/gemmm-logo-ink.svg" alt="GEMMM" width="84" height="57"></a>
-      <nav class="foot2__links" aria-label="Redes">
+      <nav class="foot2__links" aria-label="Enlaces">
+        <a href="../herramientas.html">Herramientas</a>
+        <a href="../blog/index.html">Blog</a>
         <a href="https://www.behance.net/constanzagemm" target="_blank" rel="noopener">Behance ↗</a>
         <a href="https://www.instagram.com/gemmstudio.cl" target="_blank" rel="noopener">Instagram ↗</a>
       </nav>
     </div>
-    <div class="foot2__news">
+    <div class="foot2__news" hidden>
       <h2 class="foot2__label">Newsletter</h2>
       <p class="foot2__text">Ideas, proyectos y recursos de diseño. Sin spam.</p>
       <form class="news__form" data-newsletter novalidate>
@@ -172,6 +175,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js" defer></script>
-<script src="../assets/js/main.js?v=19" defer></script>
+<script src="../assets/js/main.js?v=27" defer></script>
 </body>
 </html>

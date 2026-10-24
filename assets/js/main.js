@@ -78,16 +78,15 @@ const GEMMM = {
 
   /* ---- Menú: marca la página activa ---- */
   (function () {
-    const path = location.pathname;
+    const here = location.pathname.replace(/\/$/, '/index.html');
     document.querySelectorAll('.nav__menu a').forEach(a => {
-      const href = a.getAttribute('href') || '';
-      const file = href.split('#')[0].split('/').pop();
-      const hash = href.includes('#') ? href.split('#')[1] : '';
-      const here = path.split('/').pop() || 'index.html';
-      let on = !hash && file && file === here;
-      if (/\/herramientas\//.test(path) && file === 'herramientas.html') on = true;
-      if (/\/servicios\//.test(path) && hash === 'servicios') on = true;
-      if (/\/proyectos\//.test(path) && hash === 'proyectos') on = true;
+      const u = new URL(a.getAttribute('href') || '', location.href);
+      const hash = u.hash.slice(1);
+      let on = !hash && u.pathname === here;
+      if (/\/herramientas\//.test(here) && /herramientas\.html$/.test(u.pathname)) on = true;
+      if (/\/blog\//.test(here) && /\/blog\/index\.html$/.test(u.pathname)) on = true;
+      if (/\/servicios\//.test(here) && hash === 'servicios') on = true;
+      if (/\/proyectos\//.test(here) && hash === 'proyectos') on = true;
       if (on) a.setAttribute('aria-current', 'page');
     });
   })();
@@ -118,6 +117,19 @@ const GEMMM = {
   }
 
   /* ---- Newsletter ---- */
+
+  // Copiar correo (respaldo del mailto)
+  document.querySelectorAll('[data-copy-email]').forEach(btn => {
+    const label = btn.textContent;
+    btn.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(GEMMM.email); btn.textContent = 'Correo copiado ✓'; }
+      catch (e) { btn.textContent = GEMMM.email; }
+      btn.classList.add('is-done');
+      setTimeout(() => { btn.textContent = label; btn.classList.remove('is-done'); }, 2600);
+    });
+  });
+  // Newsletter: visible solo cuando está conectado
+  if (GEMMM.newsletter) document.querySelectorAll('.foot2__news[hidden]').forEach(el => el.hidden = false);
   document.querySelectorAll('[data-newsletter]').forEach(form => {
     const msg = form.parentElement.querySelector('.news__msg');
     form.addEventListener('submit', async e => {
@@ -156,7 +168,7 @@ const GEMMM = {
     // Fichas de proyectos: entrada escalonada, una tras otra
     ScrollTrigger.batch('.grid .card', {
       start: 'top 90%', once: true,
-      onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: .9, stagger: .12, ease: EASE })
+      onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: 1.4, stagger: .18, ease: 'power2.out' })
     });
     gsap.utils.toArray('[data-reveal]').forEach(el => {
       gsap.to(el, { opacity: 1, y: 0, duration: .9, ease: EASE,
@@ -174,4 +186,74 @@ const GEMMM = {
   } else {
     counters.forEach(el => el.textContent = formatNum(parseFloat(el.dataset.count)) + (el.dataset.suffix || ''));
   }
+})();
+
+/* ---- 6. Elementos del inicio (letras, palabra que cambia, vista previa de proyectos) ---- */
+(function () {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  const G = window.gsap;
+  // Palabra que cambia (siempre en movimiento)
+  const swap = document.querySelector('[data-swap]');
+  if (swap) {
+    const words = [...swap.children]; let wi = 0;
+    words.forEach((w, i) => { if (i) w.style.transform = 'translateY(110%)'; });
+    const step = () => {
+      const cur = words[wi]; wi = (wi + 1) % words.length; const nx = words[wi];
+      if (G) { G.to(cur, { yPercent: -110, duration: .5, ease: 'back.in(1.4)' }); G.fromTo(nx, { yPercent: 110, y: 0 }, { yPercent: 0, duration: .6, ease: 'back.out(1.6)', delay: .3 }); }
+      else { cur.style.transform = 'translateY(-110%)'; nx.style.transform = 'none'; }
+    };
+    if (!reduce) setInterval(step, 2300);
+  }
+  if (!G) return;
+  // Letras con peso variable: una ola al cargar y luego solo con el cursor
+  document.querySelectorAll('[data-weight]').forEach(word => {
+    const letters = [...word.querySelectorAll('span[aria-hidden]')];
+    letters.forEach(l => G.set(l, { '--w': 300 }));
+    if (reduce) return;
+    const wave = G.timeline({ delay: .3 });
+    letters.forEach((l, i) => wave.to(l, { '--w': 900, duration: .5, ease: 'power2.inOut', onStart: () => l.classList.add('on'), onComplete: () => l.classList.remove('on') }, i * .14).to(l, { '--w': 300, duration: .6, ease: 'power2.inOut' }, i * .14 + .5));
+    if (!fine) return;
+    word.addEventListener('pointerenter', () => wave.kill());
+    word.addEventListener('pointerleave', () => {
+      letters.forEach(l => { l.classList.remove('on'); G.to(l, { '--w': 300, duration: .8, ease: 'power3.out', overwrite: true }); });
+    });
+    word.addEventListener('pointermove', e => {
+      letters.forEach(l => {
+        const r = l.getBoundingClientRect();
+        const k = Math.max(0, 1 - Math.abs(e.clientX - (r.left + r.width / 2)) / (r.width * 1.6));
+        l.classList.toggle('on', k > .6);
+        G.to(l, { '--w': 200 + 700 * k, duration: .45, ease: 'power3.out', overwrite: true });
+      });
+    });
+  });
+  // Vista previa flotante de proyectos
+  const peek = document.querySelector('.xpeek');
+  if (fine && peek) {
+    const img = peek.querySelector('img');
+    const px = G.quickTo(peek, 'left', { duration: .5, ease: 'power3' }), py = G.quickTo(peek, 'top', { duration: .5, ease: 'power3' });
+    document.querySelectorAll('.xprow a[data-img]').forEach(a => {
+      a.addEventListener('pointerenter', e => { img.src = a.dataset.img; G.set(peek, { left: e.clientX, top: e.clientY }); G.to(peek, { opacity: 1, scale: 1, rotate: G.utils.random(-7, 7), duration: .5, ease: 'back.out(1.7)' }); });
+      a.addEventListener('pointermove', e => { px(e.clientX + 40); py(e.clientY); });
+      a.addEventListener('pointerleave', () => G.to(peek, { opacity: 0, scale: .6, duration: .3 }));
+    });
+  }
+})();
+
+/* ---- 7. Remezclar colores (se recuerda al cambiar de página) ---- */
+(function () {
+  const P = [['#4A82E2','#FF6B4A','#B8F35A'],['#5EC066','#4A82E2','#FFD23F'],['#FF6B4A','#7B61FF','#5EC066'],['#FFD23F','#FF5FA2','#4A82E2'],['#B8F35A','#232323','#FF5FA2']];
+  const root = document.documentElement;
+  let i = 0;
+  try { i = (+localStorage.getItem('gemmm-remix') || 0) % P.length; } catch (e) {}
+  const apply = (anim) => {
+    const [a, b, c] = P[i];
+    if (anim && window.gsap && !matchMedia('(prefers-reduced-motion: reduce)').matches) gsap.to(root, { '--x1': a, '--x2': b, '--x3': c, duration: .6, ease: 'power2.out' });
+    else { root.style.setProperty('--x1', a); root.style.setProperty('--x2', b); root.style.setProperty('--x3', c); }
+  };
+  if (i) apply(false);
+  document.querySelectorAll('[data-remix]').forEach(btn => btn.addEventListener('click', () => {
+    i = (i + 1) % P.length; apply(true);
+    try { localStorage.setItem('gemmm-remix', i); } catch (e) {}
+  }));
 })();
