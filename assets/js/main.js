@@ -209,21 +209,28 @@ const GEMMM = {
   // Letras con peso variable: una ola al cargar y luego solo con el cursor
   document.querySelectorAll('[data-weight]').forEach(word => {
     const letters = [...word.querySelectorAll('span[aria-hidden]')];
-    letters.forEach(l => G.set(l, { '--w': 300 }));
+    const base = l => +(l.dataset.b || 300);
+    letters.forEach(l => G.set(l, { '--w': base(l) }));
     if (reduce) return;
-    const wave = G.timeline({ delay: .3 });
-    letters.forEach((l, i) => wave.to(l, { '--w': 900, duration: .5, ease: 'power2.inOut', onStart: () => l.classList.add('on'), onComplete: () => l.classList.remove('on') }, i * .14).to(l, { '--w': 300, duration: .6, ease: 'power2.inOut' }, i * .14 + .5));
+    const gap = Math.min(.14, 1.6 / letters.length);
+    const wave = G.timeline({ delay: .3, paused: true });
+    // la ola parte cuando el texto entra en pantalla
+    const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { wave.play(); io.disconnect(); } }), { threshold: .4 });
+    io.observe(word);
+    letters.forEach((l, i) => wave.to(l, { '--w': 900, duration: .45, ease: 'power2.inOut', onStart: () => l.classList.add('on'), onComplete: () => l.classList.remove('on') }, i * gap).to(l, { '--w': base(l), duration: .55, ease: 'power2.inOut' }, i * gap + .45));
     if (!fine) return;
     word.addEventListener('pointerenter', () => wave.kill());
     word.addEventListener('pointerleave', () => {
-      letters.forEach(l => { l.classList.remove('on'); G.to(l, { '--w': 300, duration: .8, ease: 'power3.out', overwrite: true }); });
+      letters.forEach(l => { l.classList.remove('on'); G.to(l, { '--w': base(l), duration: .8, ease: 'power3.out', overwrite: true }); });
     });
     word.addEventListener('pointermove', e => {
       letters.forEach(l => {
         const r = l.getBoundingClientRect();
-        const k = Math.max(0, 1 - Math.abs(e.clientX - (r.left + r.width / 2)) / (r.width * 1.6));
+        const dx = e.clientX - (r.left + r.width / 2), dy = (e.clientY - (r.top + r.height / 2)) * 1.4;
+        const k = Math.max(0, 1 - Math.hypot(dx, dy) / (r.height * 1.3));
         l.classList.toggle('on', k > .6);
-        G.to(l, { '--w': 200 + 700 * k, duration: .45, ease: 'power3.out', overwrite: true });
+        const b0 = base(l);
+        G.to(l, { '--w': b0 + (900 - b0) * k, duration: .45, ease: 'power3.out', overwrite: true });
       });
     });
   });
