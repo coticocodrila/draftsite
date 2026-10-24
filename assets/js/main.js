@@ -9,7 +9,9 @@ const GEMMM = {
   whatsapp: '',
   whatsappMsg: 'Hola GEMMM, quiero cotizar un proyecto.',
   // Link de tu agenda (Calendly, Google Calendar, Cal.com). Ej: 'https://calendly.com/gemmm/30min'
-  agenda: ''
+  agenda: '',
+  // Valor de la UF para mostrar precios aproximados en pesos. Actualízalo de vez en cuando (sii.cl)
+  uf: 41123
 };
 
 (function () {
@@ -29,6 +31,12 @@ const GEMMM = {
   });
   document.querySelectorAll('[data-email]').forEach(el => { el.textContent = GEMMM.email; if (el.tagName === 'A') el.href = 'mailto:' + GEMMM.email; });
 
+  /* ---- Precios: convierte UF a pesos aproximados ---- */
+  document.querySelectorAll('[data-uf]').forEach(el => {
+    const clp = Math.round(parseFloat(el.dataset.uf) * GEMMM.uf / 1000) * 1000;
+    el.textContent = '≈ $' + clp.toLocaleString('es-CL') + (el.dataset.unit || '') + ' + IVA';
+  });
+
   /* ---- 2. Menú móvil ---- */
   const burger = document.querySelector('.nav__burger');
   const menu = document.querySelector('.nav__menu');
@@ -45,6 +53,11 @@ const GEMMM = {
     document.querySelectorAll('.card').forEach(c => c.hidden = b.dataset.f !== 'todo' && c.dataset.c !== b.dataset.f);
   }));
 
+  /* ---- Reloj de Santiago ---- */
+  const clocks = document.querySelectorAll('[data-clock]');
+  const tick = () => { const h = new Intl.DateTimeFormat('es-CL',{hour:'2-digit',minute:'2-digit',timeZone:'America/Santiago'}).format(new Date()); clocks.forEach(c => c.textContent = h); };
+  if (clocks.length) { tick(); setInterval(tick, 30000); }
+
   /* ---- 4. Año en el pie ---- */
   document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
 
@@ -55,9 +68,16 @@ const GEMMM = {
 
   if (!reduce && window.gsap && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
+    // Curva propia de GEMMM: entra rápido y se asienta con un pequeño rebote
+    let EASE = 'power3.out';
+    if (window.CustomEase) {
+      gsap.registerPlugin(CustomEase);
+      CustomEase.create('gemmm', 'M0,0 C0.2,0.7 0.32,1.06 0.56,1.03 0.74,1.01 0.86,1 1,1');
+      EASE = 'gemmm';
+    }
     document.documentElement.classList.add('js-anim');
     gsap.utils.toArray('[data-reveal]').forEach(el => {
-      gsap.to(el, { opacity: 1, y: 0, duration: .8, ease: 'power3.out',
+      gsap.to(el, { opacity: 1, y: 0, duration: .9, ease: EASE,
         scrollTrigger: { trigger: el, start: 'top 88%', once: true } });
     });
     counters.forEach(el => {
