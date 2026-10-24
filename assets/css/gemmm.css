@@ -1057,3 +1057,22 @@ h2.xcontact__title{font-family:var(--font-display);font-size:clamp(2.6rem,10.5vw
 @media (max-width:560px){.xcontact{padding:84px 0 64px}.xcontact__actions{flex-direction:column;align-items:center}}
 .xcontact__ghost[hidden]{display:none}
 .foot2__links{flex-wrap:wrap;gap:12px 22px}.foot2__links a{white-space:nowrap}
+
+/* ===== v46: ajustes mobile ===== */
+@media (max-width:820px){
+  .nav__cta{display:none}
+  .xhero{padding:28px 0 56px}
+  .xbadge{position:relative;order:-1;left:auto;right:auto;bottom:auto;top:auto;margin:0 auto 18px;width:96px;height:96px}
+  .foot2{background:#fff}
+}
+@media (hover:none){
+  .tcard__art--pal i:nth-child(1){animation:palA 4s var(--ease) infinite}
+  .tcard__art--pal i:nth-child(3){animation:palB 4s var(--ease) infinite}
+  .tcard__art--pal i:nth-child(5){animation:palC 4s var(--ease) infinite}
+  .tcard__aa{animation:aaW 3.2s ease-in-out infinite}
+}
+@keyframes palA{0%,100%{flex:1}50%{flex:2.2}}
+@keyframes palB{0%,100%{flex:1}35%{flex:.6}70%{flex:1.8}}
+@keyframes palC{0%,100%{flex:1}50%{flex:.4}}
+@keyframes aaW{0%,100%{font-weight:300;font-variation-settings:"wght" 300}50%{font-weight:900;font-variation-settings:"wght" 900}}
+@media (prefers-reduced-motion:reduce){.tcard__art--pal i,.tcard__aa{animation:none!important}}

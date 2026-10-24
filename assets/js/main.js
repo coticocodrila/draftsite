@@ -264,3 +264,16 @@ const GEMMM = {
     try { localStorage.setItem('gemmm-remix', i); } catch (e) {}
   }));
 })();
+
+/* ---- 8. "Escríbeme": copia el correo y abre el correo ---- */
+(function () {
+  document.querySelectorAll('[data-mail-copy]').forEach(a => {
+    const label = a.querySelector('.xcontact__label'); if (!label) return;
+    const txt = label.textContent; let t;
+    a.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(GEMMM.email); label.textContent = 'Correo copiado ✓'; }
+      catch (e) { label.textContent = GEMMM.email; }
+      clearTimeout(t); t = setTimeout(() => label.textContent = txt, 2800);
+    });
+  });
+})();
