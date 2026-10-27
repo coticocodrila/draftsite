@@ -4,16 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Generador de paletas de color gratis | GEMMM</title>
-<meta name="description" content="Genera paletas de color armónicas con la barra espaciadora, fija tus favoritos y copia los códigos. Gratis y sin registro.">
+<meta name="description" content="Genera paletas de color armónicas, fija tus favoritos y copia los códigos. Gratis y sin registro.">
 <link rel="canonical" href="https://gemmm.cl/herramientas/paletas.html">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Generador de paletas de color gratis | GEMMM">
-<meta property="og:description" content="Genera paletas de color armónicas con la barra espaciadora, fija tus favoritos y copia los códigos. Gratis y sin registro.">
+<meta property="og:description" content="Genera paletas de color armónicas, fija tus favoritos y copia los códigos. Gratis y sin registro.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="../assets/img/gemmm-logo-ink.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/gemmm.css?v=49">
+<link rel="stylesheet" href="../assets/css/gemmm.css?v=65">
 </head>
 <body>
 <a class="skip" href="#main">Saltar al contenido</a>
@@ -25,9 +25,10 @@
       <li><a href="../index.html#servicios">Servicios</a></li>
       <li><a href="../animacion.html">Animación</a></li>
       <li><a href="../estudio.html">Estudio</a></li>
+      <li class="nav__sub"><a href="../herramientas.html">Herramientas</a></li>
+      <li class="nav__sub"><a href="../blog/index.html">Blog</a></li>
     </ul>
     <div class="nav__right">
-      <button class="nav__remix" type="button" data-remix aria-label="Cambiar los colores del sitio" title="Cambiar colores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 4h6v6H4zM14 14h6v6h-6z"/><path d="M14 4h6v6h-6z" fill="currentColor"/><path d="M4 14h6v6H4z" fill="currentColor"/></svg><span>Remezclar colores</span></button>
       <a class="nav__cta" href="#contacto">Hablemos</a>
       <button class="nav__burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span></button>
     </div>
@@ -36,11 +37,11 @@
 <main id="main">
 <header class="page-hero page-hero--tool">
   <div class="wrap">
-    <h1 class="h-lg">Generador de <b>paletas.</b></h1>
-    <p class="lead" style="margin-top:16px">Aprieta la <kbd>barra espaciadora</kbd> o el botón. Haz clic en un código para copiarlo.</p>
+    <h1 class="h-lg">Paletas <b>de color.</b></h1>
+    <p class="lead">Toca «Nueva paleta»<span class="no-touch"> o usa la <kbd>barra espaciadora</kbd></span>. Toca un código para copiarlo y «Fijar» para conservar un color.</p>
   </div>
 </header>
-<section class="section tool" data-paleta style="padding-top:8px">
+<section class="section tool" data-paleta>
   <div class="wrap">
     <div class="tool__bar">
       <button class="btn btn--primary" type="button" data-generar>Nueva paleta</button>
@@ -60,7 +61,6 @@
     <p class="xcontact__lead">Cuéntame qué tienes en mente: una marca nueva, un sitio o una idea que necesita moverse. Lo conversamos y te propongo cómo hacerlo realidad.</p>
     <div class="xcontact__actions">
       <a class="xcontact__btn" data-mail-copy href="mailto:holacoticocodrila@gmail.com?subject=Proyecto%20con%20GEMMM"><span class="xcontact__label" aria-live="polite">Escríbeme</span> <span aria-hidden="true">→</span></a>
-      <a class="xcontact__ghost" data-cta="whatsapp" href="#">WhatsApp</a>
     </div>
   </div>
 </section>
@@ -69,7 +69,11 @@
   <div class="wrap foot2__top">
     <div class="foot2__brand">
       <a href="../index.html" aria-label="GEMMM, inicio"><img src="../assets/img/gemmm-logo-ink.svg" alt="GEMMM" width="84" height="57"></a>
-      <nav class="foot2__links" aria-label="Enlaces">
+      <nav class="foot2__links" aria-label="Mapa del sitio">
+        <a href="../index.html#proyectos">Proyectos</a>
+        <a href="../index.html#servicios">Servicios</a>
+        <a href="../animacion.html">Animación</a>
+        <a href="../estudio.html">Estudio</a>
         <a href="../herramientas.html">Herramientas</a>
         <a href="../blog/index.html">Blog</a>
         <a href="https://www.behance.net/constanzagemm" target="_blank" rel="noopener">Behance ↗</a>
@@ -92,11 +96,7 @@
     <span>Santiago, Chile · <span data-clock>--:--</span></span>
   </div>
 </footer>
-<a class="float" data-cta="whatsapp" href="#contacto" aria-label="Escríbenos por WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.6 7.3L3 20l1.3-5.1A8.4 8.4 0 1 1 21 11.5z"/></svg><span>WhatsApp</span></a>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js" defer></script>
-<script src="../assets/js/main.js?v=30" defer></script>
+<script src="../assets/js/main.js?v=40" defer></script>
 <script src="../assets/js/paletas.js?v=2" defer></script>
 <div class="toast" data-toast role="status" aria-live="polite"></div>
 </body>

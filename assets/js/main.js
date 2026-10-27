@@ -1,111 +1,171 @@
 /* =========================================================
-   GEMMM — scripts compartidos
+   GEMMM — scripts compartidos (sin librerías externas)
    ========================================================= */
 
-/* ---- 1. CONFIGURACIÓN: completa estos datos y se actualizan en todo el sitio ---- */
+/* ---- 1. Configuración ---- */
 const GEMMM = {
   email: 'holacoticocodrila@gmail.com',
-  // Número de WhatsApp con código de país, sin + ni espacios. Ej: '56912345678'
-  whatsapp: '',
-  whatsappMsg: 'Hola GEMMM, quiero cotizar un proyecto.',
-  // Link de tu agenda (Calendly, Google Calendar, Cal.com). Ej: 'https://calendly.com/gemmm/30min'
-  agenda: '',
-  // Valor de la UF para mostrar precios aproximados en pesos. Actualízalo de vez en cuando (sii.cl)
+  // Valor de la UF para la página de precios (oculta). Actualízalo de vez en cuando (sii.cl)
   uf: 41123,
-  // Newsletter (MailerLite): pega aquí la URL del formulario incrustado. Ej:
-  // 'https://assets.mailerlite.com/jsonp/123456/forms/987654321/subscribe'
+  // Newsletter (MailerLite): pega aquí la URL del formulario incrustado para activarlo.
   newsletter: ''
 };
 
 (function () {
-  const mail = 'mailto:' + GEMMM.email + '?subject=' + encodeURIComponent('Proyecto GEMMM');
-  const wa = GEMMM.whatsapp ? 'https://wa.me/' + GEMMM.whatsapp + '?text=' + encodeURIComponent(GEMMM.whatsappMsg) : '';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
-  // Botones de agenda: si no hay link de agenda, abren un correo
-  document.querySelectorAll('[data-cta="agenda"]').forEach(a => {
-    a.href = GEMMM.agenda || mail;
-    if (GEMMM.agenda) { a.target = '_blank'; a.rel = 'noopener'; }
+  /* ---- 2. Menú ---- */
+  const nav = document.querySelector('.nav');
+  const burger = document.querySelector('.nav__burger');
+  const menu = document.querySelector('.nav__menu');
+  const setMenu = open => {
+    if (!menu || !burger) return;
+    menu.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
+    burger.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    document.body.classList.toggle('menu-open', open);
+  };
+  if (burger && menu) {
+    burger.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
+    $$('a', menu).forEach(a => a.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('open')) { setMenu(false); burger.focus(); } });
+    matchMedia('(min-width: 48rem)').addEventListener('change', () => setMenu(false));
+  }
+  // El encabezado se esconde al bajar y vuelve al subir
+  if (nav) {
+    let lastY = scrollY;
+    addEventListener('scroll', () => {
+      const y = scrollY;
+      if (menu && menu.classList.contains('open')) { lastY = y; return; }
+      if (y > lastY + 6 && y > 140) nav.classList.add('is-hidden');
+      else if (y < lastY - 6 || y < 140) nav.classList.remove('is-hidden');
+      lastY = y;
+    }, { passive: true });
+    nav.addEventListener('focusin', () => nav.classList.remove('is-hidden'));
+  }
+  // Marca la página activa
+  const here = location.pathname.replace(/\/$/, '/index.html');
+  $$('.nav__menu a').forEach(a => {
+    const u = new URL(a.getAttribute('href') || '', location.href);
+    const hash = u.hash.slice(1);
+    let on = !hash && u.pathname === here;
+    if (/\/servicios\//.test(here) && hash === 'servicios') on = true;
+    if (/\/proyectos\//.test(here) && hash === 'proyectos') on = true;
+    if (on) a.setAttribute('aria-current', 'page');
   });
-  // Botones de WhatsApp: si no hay número, se ocultan (o pasan a correo si tienen data-fallback)
-  document.querySelectorAll('[data-cta="whatsapp"]').forEach(a => {
-    if (wa) { a.href = wa; a.target = '_blank'; a.rel = 'noopener'; }
-    else if (a.hasAttribute('data-fallback')) { a.href = mail; }
-    else { a.hidden = true; }
-  });
-  document.querySelectorAll('[data-email]').forEach(el => { el.textContent = GEMMM.email; if (el.tagName === 'A') el.href = 'mailto:' + GEMMM.email; });
 
-  /* ---- Precios: convierte UF a pesos aproximados ---- */
-  document.querySelectorAll('[data-uf]').forEach(el => {
+  /* ---- 3. Pequeños datos ---- */
+  $$('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
+  const clocks = $$('[data-clock]');
+  const tick = () => { const h = new Intl.DateTimeFormat('es-CL', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Santiago' }).format(new Date()); clocks.forEach(c => c.textContent = h); };
+  if (clocks.length) { tick(); setInterval(tick, 30000); }
+  $$('[data-uf]').forEach(el => {
     const clp = Math.round(parseFloat(el.dataset.uf) * GEMMM.uf / 1000) * 1000;
     el.textContent = '≈ $' + clp.toLocaleString('es-CL') + (el.dataset.unit || '') + ' + IVA';
   });
 
-  /* ---- 2. Menú móvil ---- */
-  const burger = document.querySelector('.nav__burger');
-  const menu = document.querySelector('.nav__menu');
-  if (burger && menu) {
-    burger.addEventListener('click', () => burger.setAttribute('aria-expanded', menu.classList.toggle('open')));
-    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { menu.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); }));
-  }
+  /* ---- 4. "Escríbeme": abre el correo y además copia la dirección ---- */
+  $$('[data-mail-copy]').forEach(a => {
+    const label = a.querySelector('.xcontact__label'); if (!label) return;
+    const txt = label.textContent; let t;
+    a.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(GEMMM.email); label.textContent = 'Correo copiado ✓'; }
+      catch (e) { label.textContent = GEMMM.email; }
+      clearTimeout(t); t = setTimeout(() => label.textContent = txt, 3000);
+    });
+  });
 
-  /* ---- 3. Filtros de proyectos ---- */
-  const filters = document.querySelectorAll('.filter');
-  filters.forEach(b => b.addEventListener('click', () => {
-    filters.forEach(x => x.setAttribute('aria-pressed', 'false'));
-    b.setAttribute('aria-pressed', 'true');
-    document.querySelectorAll('.card').forEach(c => c.hidden = b.dataset.f !== 'todo' && c.dataset.c !== b.dataset.f);
-  }));
+  /* ---- 5. Newsletter (oculto hasta que se conecte) ---- */
+  if (GEMMM.newsletter) $$('.foot2__news[hidden]').forEach(el => el.hidden = false);
+  $$('[data-newsletter]').forEach(form => {
+    const msg = form.parentElement.querySelector('.news__msg');
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const email = form.querySelector('input[type=email]');
+      if (!email.value || !email.checkValidity()) { msg.textContent = 'Revisa tu correo, parece que falta algo.'; email.focus(); return; }
+      if (!GEMMM.newsletter) return;
+      const data = new FormData(form); data.append('ml-submit', '1'); data.append('anticsrf', 'true');
+      const btn = form.querySelector('button'); btn.disabled = true;
+      try { await fetch(GEMMM.newsletter, { method: 'POST', body: data, mode: 'no-cors' }); form.reset(); msg.textContent = '¡Listo! Revisa tu correo para confirmar la suscripción.'; }
+      catch (err) { msg.textContent = 'No se pudo completar la suscripción. Inténtalo de nuevo en un momento.'; }
+      btn.disabled = false;
+    });
+  });
 
-  /* ---- Reloj de Santiago ---- */
-  const clocks = document.querySelectorAll('[data-clock]');
-  const tick = () => { const h = new Intl.DateTimeFormat('es-CL',{hour:'2-digit',minute:'2-digit',timeZone:'America/Santiago'}).format(new Date()); clocks.forEach(c => c.textContent = h); };
-  if (clocks.length) { tick(); setInterval(tick, 30000); }
-
-  /* ---- Servicios: vista previa animada que sigue al cursor ---- */
-  const prev = document.querySelector('.srv__preview');
-  if (prev && window.matchMedia('(hover: hover)').matches && window.gsap) {
-    const xTo = gsap.quickTo(prev, 'x', { duration: .5, ease: 'power3.out' });
-    const yTo = gsap.quickTo(prev, 'y', { duration: .5, ease: 'power3.out' });
-    document.querySelectorAll('.srv__row').forEach((row, i) => {
-      row.addEventListener('mouseenter', () => {
-        prev.src = row.dataset.gif;
-        gsap.to(prev, { opacity: 1, scale: 1, rotate: i % 2 ? 4 : -4, duration: .5, ease: gsap.parseEase('gemmm') ? 'gemmm' : 'back.out(1.6)' });
-      });
-      row.addEventListener('mouseleave', () => gsap.to(prev, { opacity: 0, scale: .6, duration: .3, ease: 'power2.in' }));
-      row.addEventListener('mousemove', e => { xTo(e.clientX + 24); yTo(e.clientY - 110); });
+  /* ---- 6. Aparición al hacer scroll ---- */
+  if (!reduce && 'IntersectionObserver' in window) {
+    document.documentElement.classList.add('js-anim');
+    const io = new IntersectionObserver(es => es.forEach(en => {
+      if (!en.isIntersecting) return;
+      en.target.classList.add('is-in'); io.unobserve(en.target);
+    }), { rootMargin: '0px 0px -8% 0px' });
+    $$('[data-reveal]').forEach(el => io.observe(el));
+    // fichas de proyectos: una tras otra dentro de cada fila
+    $$('.grid .card').forEach(card => {
+      const cols = getComputedStyle(card.parentElement).gridTemplateColumns.split(' ').length;
+      const i = $$('.card', card.parentElement).indexOf(card);
+      card.style.setProperty('--d', (i % cols) * .15 + 's');
+      io.observe(card);
     });
   }
 
-  /* ---- Menú: marca la página activa ---- */
-  (function () {
-    const here = location.pathname.replace(/\/$/, '/index.html');
-    document.querySelectorAll('.nav__menu a').forEach(a => {
-      const u = new URL(a.getAttribute('href') || '', location.href);
-      const hash = u.hash.slice(1);
-      let on = !hash && u.pathname === here;
-      if (/\/herramientas\//.test(here) && /herramientas\.html$/.test(u.pathname)) on = true;
-      if (/\/blog\//.test(here) && /\/blog\/index\.html$/.test(u.pathname)) on = true;
-      if (/\/servicios\//.test(here) && hash === 'servicios') on = true;
-      if (/\/proyectos\//.test(here) && hash === 'proyectos') on = true;
-      if (on) a.setAttribute('aria-current', 'page');
-    });
-  })();
+  /* ---- 7. Inicio: palabra que cambia ---- */
+  const swap = document.querySelector('[data-swap]');
+  if (swap) {
+    const words = [...swap.children]; let wi = 0;
+    words[0].classList.add('is-on');
+    if (!reduce) setInterval(() => {
+      const cur = words[wi]; wi = (wi + 1) % words.length; const nx = words[wi];
+      cur.classList.remove('is-on'); cur.classList.add('is-out'); nx.classList.add('is-on');
+      setTimeout(() => cur.classList.remove('is-out'), 500);
+    }, 2300);
+  }
 
-  /* ---- Herramientas: vistas previas vivas ---- */
-  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* ---- 8. Letras de peso variable (titular y "¿Hablamos?") ---- */
+  $$('[data-weight]').forEach(word => {
+    const letters = $$('span[aria-hidden]', word);
+    const base = l => +(l.dataset.b || 300);
+    const set = (l, w) => l.style.setProperty('--w', Math.round(w));
+    letters.forEach(l => set(l, base(l)));
+    if (reduce) return;
+    // una ola cuando el texto aparece en pantalla
+    const gap = Math.min(110, 1400 / letters.length);
+    const wave = () => letters.forEach((l, i) => {
+      setTimeout(() => { set(l, 900); l.classList.add('on'); }, i * gap);
+      setTimeout(() => { set(l, base(l)); l.classList.remove('on'); }, i * gap + 450);
+    });
+    const io = new IntersectionObserver(es => { if (es[0].isIntersecting) { setTimeout(wave, 250); io.disconnect(); } }, { threshold: .4 });
+    io.observe(word);
+    if (!fine) return;
+    // con el cursor: las letras cercanas se engruesan
+    let raf = 0;
+    word.addEventListener('pointermove', e => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => letters.forEach(l => {
+        const r = l.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2), dy = (e.clientY - (r.top + r.height / 2)) * 1.4;
+        const k = Math.max(0, 1 - Math.hypot(dx, dy) / (r.height * 1.3));
+        set(l, base(l) + (900 - base(l)) * k); l.classList.toggle('on', k > .6);
+      }));
+    });
+    word.addEventListener('pointerleave', () => { cancelAnimationFrame(raf); letters.forEach(l => { set(l, base(l)); l.classList.remove('on'); }); });
+  });
+
+  /* ---- 9. Herramientas: vistas previas vivas (página Herramientas) ---- */
   const palPrev = document.querySelector('[data-pal-preview]');
   if (palPrev) {
-    const sw = palPrev.querySelectorAll('span');
+    const sw = $$('span', palPrev);
     const paint = () => {
-      const h = Math.random() * 360, step = [0, 25, 50, 180, 200][Math.floor(Math.random() * 5)];
-      const ls = [22, 45, 62, 78, 92];
+      const h = Math.random() * 360, step = [0, 25, 50, 180, 200][Math.floor(Math.random() * 5)], ls = [22, 45, 62, 78, 92];
       sw.forEach((s, i) => s.style.backgroundColor = `hsl(${(h + (i % 2 ? step : i * 12)) % 360} ${55 + Math.random() * 30}% ${ls[i]}%)`);
     };
-    paint(); if (!calm) setInterval(paint, 2600);
+    paint(); if (!reduce) setInterval(paint, 2600);
   }
   const typePrev = document.querySelector('[data-type-preview]');
   if (typePrev) {
-    const pairs = [['Unbounded','DM Sans'],['Syne','Inter'],['Fraunces','Work Sans'],['Bricolage Grotesque','IBM Plex Sans'],['Archivo Black','Karla'],['DM Serif Display','Manrope'],['Playfair Display','Inter'],['Space Grotesk','Lora'],['Bebas Neue','Work Sans'],['Rubik','Karla']];
+    const pairs = [['Unbounded', 'DM Sans'], ['Syne', 'Inter'], ['Fraunces', 'Work Sans'], ['Bricolage Grotesque', 'IBM Plex Sans'], ['Archivo Black', 'Karla'], ['DM Serif Display', 'Manrope'], ['Playfair Display', 'Inter'], ['Space Grotesk', 'Lora'], ['Bebas Neue', 'Work Sans'], ['Rubik', 'Karla']];
     const aa = typePrev.querySelector('.toolcard__aa'), pr = typePrev.querySelector('.toolcard__pair');
     let k = 0;
     const show = () => {
@@ -113,167 +173,39 @@ const GEMMM = {
       aa.style.opacity = 0; pr.style.opacity = 0;
       setTimeout(() => { aa.style.fontFamily = `'${t}', sans-serif`; pr.style.fontFamily = `'${b}', sans-serif`; pr.textContent = `${t} + ${b}`; aa.style.opacity = 1; pr.style.opacity = 1; }, 350);
     };
-    show(); if (!calm) setInterval(show, 2200);
+    show(); if (!reduce) setInterval(show, 2200);
   }
 
-  /* ---- Newsletter ---- */
-
-  // Copiar correo (respaldo del mailto)
-  document.querySelectorAll('[data-copy-email]').forEach(btn => {
-    const label = btn.textContent;
-    btn.addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText(GEMMM.email); btn.textContent = 'Correo copiado ✓'; }
-      catch (e) { btn.textContent = GEMMM.email; }
-      btn.classList.add('is-done');
-      setTimeout(() => { btn.textContent = label; btn.classList.remove('is-done'); }, 2600);
-    });
-  });
-  // Newsletter: visible solo cuando está conectado
-  if (GEMMM.newsletter) document.querySelectorAll('.foot2__news[hidden]').forEach(el => el.hidden = false);
-  document.querySelectorAll('[data-newsletter]').forEach(form => {
-    const msg = form.parentElement.querySelector('.news__msg');
-    form.addEventListener('submit', async e => {
-      e.preventDefault();
-      const email = form.querySelector('input[type=email]');
-      if (!email.value || !email.checkValidity()) { msg.textContent = 'Revisa tu correo, parece que falta algo.'; email.focus(); return; }
-      if (!GEMMM.newsletter) { msg.textContent = 'El newsletter estará disponible muy pronto. ¡Gracias por tu interés!'; return; }
-      const data = new FormData(form); data.append('ml-submit', '1'); data.append('anticsrf', 'true');
-      const btn = form.querySelector('button'); btn.disabled = true;
-      try {
-        await fetch(GEMMM.newsletter, { method: 'POST', body: data, mode: 'no-cors' });
-        form.reset(); msg.textContent = '¡Listo! Revisa tu correo para confirmar la suscripción.';
-      } catch (err) { msg.textContent = 'No pudimos suscribirte. Inténtalo de nuevo en un momento.'; }
-      btn.disabled = false;
-    });
-  });
-
-  /* ---- 4. Año en el pie ---- */
-  document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
-
-  /* ---- 5. Animaciones (GSAP + ScrollTrigger) ---- */
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const counters = document.querySelectorAll('[data-count]');
-  const formatNum = n => n.toLocaleString('es-CL');
-
-  if (!reduce && window.gsap && window.ScrollTrigger) {
-    gsap.registerPlugin(ScrollTrigger);
-    // Curva propia de GEMMM: entra rápido y se asienta con un pequeño rebote
-    let EASE = 'power3.out';
-    if (window.CustomEase) {
-      gsap.registerPlugin(CustomEase);
-      CustomEase.create('gemmm', 'M0,0 C0.2,0.7 0.32,1.06 0.56,1.03 0.74,1.01 0.86,1 1,1');
-      EASE = 'gemmm';
-    }
-    document.documentElement.classList.add('js-anim');
-    // Fichas de proyectos: entrada escalonada, una tras otra
-    ScrollTrigger.batch('.grid .card', {
-      start: 'top 90%', once: true,
-      onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: 1.4, stagger: .18, ease: 'power2.out' })
-    });
-    gsap.utils.toArray('[data-reveal]').forEach(el => {
-      gsap.to(el, { opacity: 1, y: 0, duration: .9, ease: EASE,
-        scrollTrigger: { trigger: el, start: 'top 88%', once: true } });
-    });
-    counters.forEach(el => {
-      const end = parseFloat(el.dataset.count), obj = { v: 0 }, suf = el.dataset.suffix || '';
-      ScrollTrigger.create({ trigger: el, start: 'top 90%', once: true, onEnter: () =>
-        gsap.to(obj, { v: end, duration: 1.6, ease: 'power2.out', onUpdate: () => el.textContent = formatNum(Math.round(obj.v)) + suf }) });
-    });
-    gsap.utils.toArray('.hero__shapes span').forEach((s, i) => {
-      gsap.to(s, { yPercent: (i % 2 ? -18 : 14), rotate: (i % 2 ? -6 : 5), ease: 'none',
-        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-    });
-  } else {
-    counters.forEach(el => el.textContent = formatNum(parseFloat(el.dataset.count)) + (el.dataset.suffix || ''));
-  }
-})();
-
-/* ---- 6. Elementos del inicio (letras, palabra que cambia, vista previa de proyectos) ---- */
-(function () {
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
-  const G = window.gsap;
-  // Palabra que cambia (siempre en movimiento)
-  const swap = document.querySelector('[data-swap]');
-  if (swap) {
-    const words = [...swap.children]; let wi = 0;
-    words.forEach((w, i) => { if (i) w.style.transform = 'translateY(110%)'; });
-    const step = () => {
-      const cur = words[wi]; wi = (wi + 1) % words.length; const nx = words[wi];
-      if (G) { G.to(cur, { yPercent: -110, duration: .5, ease: 'back.in(1.4)' }); G.fromTo(nx, { yPercent: 110, y: 0 }, { yPercent: 0, duration: .6, ease: 'back.out(1.6)', delay: .3 }); }
-      else { cur.style.transform = 'translateY(-110%)'; nx.style.transform = 'none'; }
+  /* ---- 10. Carrusel de proyecto ---- */
+  $$('[data-carousel]').forEach(car => {
+    const track = car.querySelector('.pcar__track');
+    const slides = [...track.children];
+    const cur = car.querySelector('[data-cur]'), tot = car.querySelector('[data-total]');
+    const prev = car.querySelector('[data-prev]'), next = car.querySelector('[data-next]');
+    const pad = n => String(n).padStart(2, '0');
+    if (tot) tot.textContent = pad(slides.length);
+    const index = () => { const x = track.scrollLeft; let best = 0, d = 1e9; slides.forEach((s, i) => { const dd = Math.abs(s.offsetLeft - track.offsetLeft - x); if (dd < d) { d = dd; best = i; } }); return best; };
+    const update = () => {
+      if (cur) cur.textContent = pad(index() + 1);
+      prev.disabled = track.scrollLeft < 4;
+      next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
     };
-    if (!reduce) setInterval(step, 2300);
-  }
-  if (!G) return;
-  // Letras con peso variable: una ola al cargar y luego solo con el cursor
-  document.querySelectorAll('[data-weight]').forEach(word => {
-    const letters = [...word.querySelectorAll('span[aria-hidden]')];
-    const base = l => +(l.dataset.b || 300);
-    letters.forEach(l => G.set(l, { '--w': base(l) }));
-    if (reduce) return;
-    const gap = Math.min(.14, 1.6 / letters.length);
-    const wave = G.timeline({ delay: .3, paused: true });
-    // la ola parte cuando el texto entra en pantalla
-    const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { wave.play(); io.disconnect(); } }), { threshold: .4 });
-    io.observe(word);
-    letters.forEach((l, i) => wave.to(l, { '--w': 900, duration: .45, ease: 'power2.inOut', onStart: () => l.classList.add('on'), onComplete: () => l.classList.remove('on') }, i * gap).to(l, { '--w': base(l), duration: .55, ease: 'power2.inOut' }, i * gap + .45));
-    if (!fine) return;
-    word.addEventListener('pointerenter', () => wave.kill());
-    word.addEventListener('pointerleave', () => {
-      letters.forEach(l => { l.classList.remove('on'); G.to(l, { '--w': base(l), duration: .8, ease: 'power3.out', overwrite: true }); });
-    });
-    word.addEventListener('pointermove', e => {
-      letters.forEach(l => {
-        const r = l.getBoundingClientRect();
-        const dx = e.clientX - (r.left + r.width / 2), dy = (e.clientY - (r.top + r.height / 2)) * 1.4;
-        const k = Math.max(0, 1 - Math.hypot(dx, dy) / (r.height * 1.3));
-        l.classList.toggle('on', k > .6);
-        const b0 = base(l);
-        G.to(l, { '--w': b0 + (900 - b0) * k, duration: .45, ease: 'power3.out', overwrite: true });
-      });
-    });
-  });
-  // Vista previa flotante de proyectos
-  const peek = document.querySelector('.xpeek');
-  if (fine && peek) {
-    const img = peek.querySelector('img');
-    const px = G.quickTo(peek, 'left', { duration: .5, ease: 'power3' }), py = G.quickTo(peek, 'top', { duration: .5, ease: 'power3' });
-    document.querySelectorAll('.xprow a[data-img]').forEach(a => {
-      a.addEventListener('pointerenter', e => { img.src = a.dataset.img; G.set(peek, { left: e.clientX, top: e.clientY }); G.to(peek, { opacity: 1, scale: 1, rotate: G.utils.random(-7, 7), duration: .5, ease: 'back.out(1.7)' }); });
-      a.addEventListener('pointermove', e => { px(e.clientX + 40); py(e.clientY); });
-      a.addEventListener('pointerleave', () => G.to(peek, { opacity: 0, scale: .6, duration: .3 }));
-    });
-  }
-})();
-
-/* ---- 7. Remezclar colores (se recuerda al cambiar de página) ---- */
-(function () {
-  const P = [['#4A82E2','#FF6B4A','#B8F35A'],['#5EC066','#4A82E2','#FFD23F'],['#FF6B4A','#7B61FF','#5EC066'],['#FFD23F','#FF5FA2','#4A82E2'],['#B8F35A','#232323','#FF5FA2']];
-  const root = document.documentElement;
-  let i = 0;
-  try { i = (+localStorage.getItem('gemmm-remix') || 0) % P.length; } catch (e) {}
-  const apply = (anim) => {
-    const [a, b, c] = P[i];
-    if (anim && window.gsap && !matchMedia('(prefers-reduced-motion: reduce)').matches) gsap.to(root, { '--x1': a, '--x2': b, '--x3': c, duration: .6, ease: 'power2.out' });
-    else { root.style.setProperty('--x1', a); root.style.setProperty('--x2', b); root.style.setProperty('--x3', c); }
-  };
-  if (i) apply(false);
-  document.querySelectorAll('[data-remix]').forEach(btn => btn.addEventListener('click', () => {
-    i = (i + 1) % P.length; apply(true);
-    try { localStorage.setItem('gemmm-remix', i); } catch (e) {}
-  }));
-})();
-
-/* ---- 8. "Escríbeme": copia el correo y abre el correo ---- */
-(function () {
-  document.querySelectorAll('[data-mail-copy]').forEach(a => {
-    const label = a.querySelector('.xcontact__label'); if (!label) return;
-    const txt = label.textContent; let t;
-    a.addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText(GEMMM.email); label.textContent = 'Correo copiado ✓'; }
-      catch (e) { label.textContent = GEMMM.email; }
-      clearTimeout(t); t = setTimeout(() => label.textContent = txt, 2800);
-    });
+    const go = d => { const i = Math.max(0, Math.min(slides.length - 1, index() + d)); track.scrollTo({ left: slides[i].offsetLeft - track.offsetLeft, behavior: reduce ? 'auto' : 'smooth' }); };
+    prev.addEventListener('click', () => go(-1));
+    next.addEventListener('click', () => go(1));
+    track.addEventListener('keydown', e => { if (e.key === 'ArrowRight') { e.preventDefault(); go(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); } });
+    track.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+    addEventListener('resize', update); update();
+    // arrastrar con el mouse (en touch el navegador ya desliza solo)
+    let down = false, sx = 0, sl = 0, moved = false;
+    track.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') return; down = true; moved = false; sx = e.clientX; sl = track.scrollLeft; });
+    addEventListener('pointermove', e => { if (!down) return; const dx = e.clientX - sx; if (Math.abs(dx) > 4) { moved = true; track.classList.add('is-drag'); } track.scrollLeft = sl - dx; });
+    addEventListener('pointerup', () => { if (!down) return; down = false; track.classList.remove('is-drag'); if (moved) go(0); });
+    // los videos se reproducen solo cuando están a la vista
+    const vids = $$('video', track);
+    if (vids.length && 'IntersectionObserver' in window) {
+      const vio = new IntersectionObserver(es => es.forEach(en => { const v = en.target; if (en.isIntersecting) v.play().catch(() => {}); else v.pause(); }), { threshold: .6 });
+      vids.forEach(v => { v.muted = true; vio.observe(v); });
+    }
   });
 })();

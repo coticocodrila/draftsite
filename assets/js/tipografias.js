@@ -14,7 +14,7 @@
     ['Bebas Neue', 'Work Sans', 'Condensada y directa, ideal para afiches y eventos.'],
     ['Rubik', 'Karla', 'Redondeada y amistosa de punta a punta.']
   ];
-  const COLORES = [['#5EC066', '#232323'], ['#4A82E2', '#232323'], ['#232323', '#FFFFFF'], ['#E3E3E3', '#232323']];
+  const COLORES = [['#4A82E2', '#232323'], ['#B8F35A', '#232323'], ['#232323', '#FFFFFF'], ['#FF6B4A', '#232323'], ['#E3E3E3', '#232323']];
   const $ = s => root.querySelector(s);
   const prev = $('.tp1');
   let i = -1;

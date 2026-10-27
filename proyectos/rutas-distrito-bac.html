@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mapa interactivo para las rutas de Distrito BAC: De Tapas y Café de Barrio | GEMMM</title>
-<meta name="description" content="Caso de estudio: cómo diseñé un mapa interactivo propio para las rutas gastronómicas de Distrito BAC en Valparaíso, con registro, verificación de visitas y datos por edición.">
+<meta name="description" content="Mapa interactivo propio para las rutas gastronómicas de Distrito BAC en Valparaíso: registro de participantes y visitas confirmadas por ubicación.">
 <link rel="canonical" href="https://gemmm.cl/proyectos/rutas-distrito-bac.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Caso: mapa interactivo para las rutas de Distrito BAC">
@@ -13,7 +13,7 @@
 <link rel="icon" href="../assets/img/gemmm-logo-ink.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/gemmm.css?v=49">
+<link rel="stylesheet" href="../assets/css/gemmm.css?v=65">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"Mapa interactivo para las rutas de Distrito BAC: De Tapas y Café de Barrio","author":{"@type":"Person","name":"Constanza Leiva Aguirre"},"publisher":{"@id":"https://gemmm.cl/#organization"},"datePublished":"2026-10-08","inLanguage":"es-CL"}
 </script>
@@ -28,9 +28,10 @@
       <li><a href="../index.html#servicios">Servicios</a></li>
       <li><a href="../animacion.html">Animación</a></li>
       <li><a href="../estudio.html">Estudio</a></li>
+      <li class="nav__sub"><a href="../herramientas.html">Herramientas</a></li>
+      <li class="nav__sub"><a href="../blog/index.html">Blog</a></li>
     </ul>
     <div class="nav__right">
-      <button class="nav__remix" type="button" data-remix aria-label="Cambiar los colores del sitio" title="Cambiar colores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 4h6v6H4zM14 14h6v6h-6z"/><path d="M14 4h6v6h-6z" fill="currentColor"/><path d="M4 14h6v6H4z" fill="currentColor"/></svg><span>Remezclar colores</span></button>
       <a class="nav__cta" href="#contacto">Hablemos</a>
       <button class="nav__burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span></button>
     </div>
@@ -38,85 +39,60 @@
 </nav>
 
 <main id="main">
-<!-- ================= CABECERA ================= -->
-<header class="page-hero">
-  <div class="wrap">
-    <span class="eyebrow">Caso de estudio · Diseño de información · Mapa interactivo</span>
+<article class="proj">
+  <header class="proj__head wrap">
+    <span class="eyebrow">Proyecto</span>
     <h1 class="h-xl">Rutas Distrito <b>BAC</b></h1>
-    <p class="lead" style="margin-top:24px">Mapa interactivo con registro y verificación de visitas para las rutas De Tapas y Café de Barrio. Cerros Alegre y Concepción, Valparaíso.</p>
-    <div class="case-stats">
-      <div><b>2</b>rutas con mapa propio: De Tapas y Café de Barrio</div>
-      <div><b>20</b>locales en la edición de De Tapas</div>
-      <div><b>1</b>edición al mes, con datos separados</div>
-    </div>
+    <p class="lead">Un mapa propio para recorrer los cerros Alegre y Concepción, y saber cuánta gente lo hace.</p>
+    <dl class="proj__meta">
+      <div><dt>Cliente</dt><dd>Distrito BAC, Valparaíso</dd></div>
+      <div><dt>Año</dt><dd>2026</dd></div>
+      <div><dt>Alcance</dt><dd>Mapa interactivo · Identidad de rutas · Datos</dd></div>
+    </dl>
+  </header>
+
+  <div class="proj__stats wrap" data-reveal>
+    <div><b>2</b><span>rutas con mapa propio</span></div>
+    <div><b>+50</b><span>locales participantes</span></div>
+    <div><b>1</b><span>edición nueva al mes</span></div>
   </div>
-</header>
 
-<section class="section" style="padding-top:40px">
-  <div class="wrap case-layout">
-    <aside class="toc" aria-label="Contenido del caso">
-      <p>En este caso</p>
-      <ol>
-        <li><a href="#punto-de-partida">Punto de partida</a></li>
-        <li><a href="#decisiones">Decisiones clave</a></li>
-        <li><a href="#que-construimos">Qué construí</a></li>
-        <li><a href="#resultados">Resultados</a></li>
-      </ol>
-    </aside>
+  <section class="proj__text wrap" data-reveal>
+    <div>
+      <h2>El desafío</h2>
+      <p>Cada mes, Distrito BAC arma una ruta gastronómica por los cerros, como De Tapas o Café de Barrio. El mapa que usaban mostraba los locales, pero no decía quién lo usaba ni qué locales visitaba.</p>
+      <p>Y ese es justo el dato que convence a locales y auspiciadores.</p>
+    </div>
+    <div>
+      <h2>La solución</h2>
+      <p>Un mapa propio, alojado en el sitio del gremio, que registra a cada participante y confirma sus visitas.</p>
+    </div>
+  </section>
 
-    <article class="prose">
+  <section class="proj__steps wrap" data-reveal aria-label="Decisiones clave">
+    <h2 class="proj__sub">Cuatro <b>decisiones.</b></h2>
+    <ol>
+      <li><h3>Un mapa propio</h3><p>Así el gremio controla el diseño, los filtros y sus datos.</p></li>
+      <li><h3>Visitas por ubicación</h3><p>La visita se confirma cuando la persona está en el local.</p></li>
+      <li><h3>Registro corto</h3><p>Nombre, correo y región. Quien vuelve en otra ruta no lo repite.</p></li>
+      <li><h3>Datos ordenados</h3><p>Cada ruta tiene su planilla y cada edición su pestaña, listas para comparar.</p></li>
+    </ol>
+  </section>
 
-      <h2 id="punto-de-partida">Punto de partida</h2>
-      <p>Distrito BAC reúne a locales gastronómicos y culturales de los cerros Alegre y Concepción. Cada mes organiza una ruta temática, como De Tapas (antes Tapas &amp; Copas) o Café de Barrio, y la difunde principalmente con un link en su Instagram.</p>
-      <p>La primera versión del mapa se armó en uMap, una herramienta gratuita de mapas. Funcionaba para mostrar los locales, pero tenía tres límites:</p>
-      <ul>
-        <li><b>No había forma de saber quién usaba el mapa</b> ni qué locales visitaba de verdad.</li>
-        <li><b>La base de datos estaba dispersa:</b> una planilla con 51 locales, de los cuales solo una parte tenía coordenadas, y otro documento con 30 locales más, algunos que no estaban en la planilla original.</li>
-        <li><b>Cada edición cambia de locales y de propuesta,</b> y el mapa no estaba pensado para renovarse cada mes.</li>
+  <section class="proj__text proj__text--one wrap" data-reveal>
+    <div>
+      <h2>En el mapa</h2>
+      <ul class="svc__list">
+        <li>Ficha de cada local con su tapa y su copa</li>
+        <li>Botón «Cómo llegar» e Instagram del local</li>
+        <li>Filtros vegano 🌱 y sin alcohol 🍹</li>
+        <li>Registros y visitas en tiempo real</li>
+        <li>Identidad propia para cada ruta</li>
+        <li>Link al sitio del gremio</li>
       </ul>
-      <p>Para el gremio, el dato de visitas es clave: es lo que permite mostrarle a los locales y a futuros auspiciadores que la ruta mueve gente.</p>
-      <div class="figure" style="background:var(--surface-alt)">Captura del mapa anterior en uMap</div>
-      <p class="caption">[Imagen pendiente: el mapa en uMap antes del cambio.]</p>
-
-      <h2 id="decisiones">Decisiones clave</h2>
-      <div class="decision">
-        <h3>1. Un mapa propio en vez de una herramienta genérica</h3>
-        <p>Migré de uMap a un mapa construido con librerías abiertas (Leaflet y MapLibre), alojado en el sitio del gremio. Así el gremio controla el diseño, los filtros y, sobre todo, los datos, y puede medirlo junto con el resto del sitio en Google Analytics.</p>
-      </div>
-      <div class="decision">
-        <h3>2. Verificar visitas por ubicación, no con códigos QR</h3>
-        <p>La opción obvia era poner un código QR en cada local. La descartamos: significaba pedirle a cada dueño que lo instalara y lo mantuviera, y eso no iba a pasar. En su lugar, la visita se confirma con la ubicación del navegador cuando la persona está en el local. Cero trabajo extra para los locales.</p>
-      </div>
-      <div class="decision">
-        <h3>3. Un registro corto, una sola vez</h3>
-        <p>Al abrir el mapa aparece un registro con nombre, correo y región (y comuna, si es de Valparaíso). Pedimos lo mínimo para que no abandonen. Quien ya se registró en una edición anterior no vuelve a ver el formulario, pero sus visitas parten de cero en cada nueva ruta.</p>
-      </div>
-      <div class="decision">
-        <h3>4. Datos separados por ruta y por edición</h3>
-        <p>De Tapas y Café de Barrio tienen su propia planilla y su propio script, para que los datos no se mezclen. Dentro de cada una, las ediciones quedan en pestañas por año, listas para comparar.</p>
-      </div>
-
-      <h2 id="que-construimos">Qué construí</h2>
-      <h3>Identidad de cada ruta</h3>
-      <p>Cada ruta tiene su paleta y sus piezas, dentro de la identidad del gremio, para que se reconozca en Instagram, en los locales y en el mapa.</p>
-      <div class="figure" style="background:var(--lime)">Piezas de la ruta De Tapas</div>
-      <p class="caption">[Imagen pendiente: afiches y piezas para redes de la ruta.]</p>
-
-      <h3>El mapa</h3>
-      <ul>
-        <li><b>Ficha de cada local</b> con la propuesta de la ruta (en De Tapas: la tapa y la copa), la dirección, un botón "Cómo llegar" y un link a su Instagram.</li>
-        <li><b>Filtros rápidos</b> para encontrar locales con opción vegana o vegetariana 🌱 y con cócteles sin alcohol 🍹.</li>
-        <li><b>Direcciones completas y consistentes</b> ("Cerro Alegre", nunca "C Alegre"), para que se lean bien y funcionen en los buscadores de mapas.</li>
-        <li><b>Botón al sitio del gremio,</b> para que el mapa también lleve tráfico a distritobac.cl.</li>
-      </ul>
-      <div class="figure" style="background:var(--violet)">Captura del mapa con fichas y filtros</div>
-      <p class="caption">[Imagen pendiente: el mapa nuevo en celular, con una ficha abierta.]</p>
-
-      <h3>Registro y visitas</h3>
-      <p>El registro y cada visita confirmada se guardan automáticamente en una planilla de Google mediante Apps Script. El gremio puede ver en tiempo real cuántas personas se registraron, de dónde vienen y qué locales visitaron.</p>
-
-      <h2 id="resultados">Resultados</h2>
-      <p>La nueva versión del mapa de De Tapas se publicó el 8 de octubre de 2026. Estos son los datos de la primera edición medida:</p>
+      <p class="proj__launch">En línea desde el 8 de octubre de 2026.</p>
+      <!-- PENDIENTE: resultados de la primera edición (completar los [—] y quitar el comentario)
+      <p>Estos son los datos de la primera edición medida:</p>
       <table>
         <tr><th>Indicador</th><th>Resultado</th><th>Cómo leerlo</th></tr>
         <tr><td>Personas registradas</td><td class="pending-cell">[—]</td><td>Interés real en la ruta</td></tr>
@@ -126,10 +102,15 @@
         <tr><td>Participantes de fuera de Valparaíso</td><td class="pending-cell">[—] %</td><td>Atracción de visitantes de otras ciudades</td></tr>
       </table>
       <div class="note"><b>Cómo se mide:</b> los registros y visitas salen directamente de la planilla del mapa; las visitas al sitio, de Google Analytics. Una visita cuenta solo si la ubicación del navegador confirma que la persona estaba en el local.</div>
-    </article>
-  </div>
-</section>
+      -->
+    </div>
+  </section>
 
+  <nav class="proj__next wrap" aria-label="Siguiente proyecto">
+    <span class="eyebrow">Siguiente proyecto</span>
+    <a href="panbo.html"><b>Panbo</b> <span aria-hidden="true">→</span></a>
+  </nav>
+</article>
 <section class="xcontact" id="contacto">
   <div class="wrap" data-reveal>
     <span class="xeyebrow xcontact__tag">Contacto</span>
@@ -137,7 +118,6 @@
     <p class="xcontact__lead">Cuéntame qué tienes en mente: una marca nueva, un sitio o una idea que necesita moverse. Lo conversamos y te propongo cómo hacerlo realidad.</p>
     <div class="xcontact__actions">
       <a class="xcontact__btn" data-mail-copy href="mailto:holacoticocodrila@gmail.com?subject=Proyecto%20con%20GEMMM"><span class="xcontact__label" aria-live="polite">Escríbeme</span> <span aria-hidden="true">→</span></a>
-      <a class="xcontact__ghost" data-cta="whatsapp" href="#">WhatsApp</a>
     </div>
   </div>
 </section>
@@ -147,7 +127,11 @@
   <div class="wrap foot2__top">
     <div class="foot2__brand">
       <a href="../index.html" aria-label="GEMMM, inicio"><img src="../assets/img/gemmm-logo-ink.svg" alt="GEMMM" width="84" height="57"></a>
-      <nav class="foot2__links" aria-label="Enlaces">
+      <nav class="foot2__links" aria-label="Mapa del sitio">
+        <a href="../index.html#proyectos">Proyectos</a>
+        <a href="../index.html#servicios">Servicios</a>
+        <a href="../animacion.html">Animación</a>
+        <a href="../estudio.html">Estudio</a>
         <a href="../herramientas.html">Herramientas</a>
         <a href="../blog/index.html">Blog</a>
         <a href="https://www.behance.net/constanzagemm" target="_blank" rel="noopener">Behance ↗</a>
@@ -170,9 +154,6 @@
     <span>Santiago, Chile · <span data-clock>--:--</span></span>
   </div>
 </footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js" defer></script>
-<script src="../assets/js/main.js?v=30" defer></script>
+<script src="../assets/js/main.js?v=40" defer></script>
 </body>
 </html>
