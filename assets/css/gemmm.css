@@ -558,3 +558,19 @@ a.card:active .pcap{background:var(--c,var(--x1))}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .js-anim [data-reveal],.js-anim .grid .card{opacity:1;transform:none}
 }
+
+/* Tarjetas de proyecto: título blanco sobre la imagen, sin etiquetas */
+.grid .card{position:relative;overflow:hidden}
+.grid .card .pcap{position:absolute;inset:auto 0 0 0;border-top:0;padding:56px 16px 14px;color:#fff;background:linear-gradient(to top,rgba(0,0,0,.6),rgba(0,0,0,0));pointer-events:none}
+.grid .card .pcap__name{color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.25)}
+.grid .card--soon:not(.card--named) .pcap__name{color:#fff;font-weight:300}
+.grid .card--soon .pcap{background:none}
+.grid .card .pcap__tags{display:none}
+.grid .cover img{transition:transform .8s var(--ease-out)}
+a.card:active .pcap,.grid a.card:active .pcap{background:linear-gradient(to top,rgba(0,0,0,.6),rgba(0,0,0,0))}
+@media (min-width:48rem){.grid .card .pcap{padding:72px 20px 18px}.grid .card .pcap__name{font-size:1.5rem}}
+@media (hover:hover){
+  .grid a.card:hover .pcap{background:linear-gradient(to top,rgba(0,0,0,.6),rgba(0,0,0,0))}
+  .grid a.card:hover .cover img{transform:scale(1.04)}
+}
+@media (prefers-reduced-motion:reduce){.grid .cover img{transition:none}.grid a.card:hover .cover img{transform:none}}
