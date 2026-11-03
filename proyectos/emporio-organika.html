@@ -13,7 +13,7 @@
 <meta name="color-scheme" content="light">
 <link rel="icon" href="../assets/img/gemmm-logo-ink.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/gemmm.css?v=73">
+<link rel="stylesheet" href="../assets/css/gemmm.css?v=74">
 </head>
 <body>
 <a class="skip" href="#main">Saltar al contenido</a>
@@ -42,9 +42,8 @@
     <p class="lead">Agrocosmética chilena.</p>
     <p class="proj__info"><span><b>Cliente</b> Emporio Orgánika</span><span><b>Año</b> Desde 2023</span></p>
   </header>
-  <!-- IMAGEN PRINCIPAL: reemplazar por una foto de estudio (2400 × 1350 px) con el mismo nombre: principal.jpg -->
   <figure class="proj__hero wrap" data-reveal>
-    <img src="../img/proyectos/emporio-organika/principal.jpg" alt="Productos de Emporio Orgánika" width="2400" height="1350">
+    <img src="../img/proyectos/emporio-organika/principal.jpg?v=2" alt="Banner de campaña de Emporio Orgánika: es natural" width="2400" height="1350">
   </figure>
 
   <section class="proj__text wrap" data-reveal>
@@ -69,8 +68,9 @@
   </section>
 
 
-  <!-- PACKAGING: subir 3 imágenes verticales 4:5 (1600 × 2000 px): botanica-01.jpg, botanica-02.jpg, botanica-03.jpg
-       y reemplazar cada <div class="slot"> por: <img src="../img/proyectos/emporio-organika/botanica-01.jpg" alt="Etiqueta Botánica Sensorial" loading="lazy"> -->
+<!-- PACKAGING (oculto hasta tener las fotos de las etiquetas Botánica Sensorial)
+   PACKAGING: subir 3 imágenes verticales 4:5 (1600 × 2000 px): botanica-01.jpg, botanica-02.jpg, botanica-03.jpg
+       y reemplazar cada <div class="slot"> por: <img src="../img/proyectos/emporio-organika/botanica-01.jpg" alt="Etiqueta Botánica Sensorial" loading="lazy"> 
   <section class="proj__pack wrap" data-reveal aria-label="Packaging Botánica Sensorial">
     <h2 class="proj__sub">Botánica <b>Sensorial.</b></h2>
     <div class="proj__pack-grid">
@@ -79,12 +79,13 @@
       <figure><div class="slot "><span>Etiqueta 3 · 4:5</span></div></figure>
     </div>
   </section>
+-->
 
   <section class="pcar wrap" data-carousel aria-roledescription="carrusel" aria-label="Campañas y contenido">
     <div class="pcar__head">
       <h2 class="pcar__title">Campañas <b>y contenido.</b></h2>
       <div class="pcar__ctrl">
-        <span class="pcar__count" aria-live="polite"><b data-cur>01</b> / <span data-total>06</span></span>
+        <span class="pcar__count" aria-live="polite"><b data-cur>01</b> / <span data-total>03</span></span>
         <button class="pcar__btn" type="button" data-prev aria-label="Anterior">←</button>
         <button class="pcar__btn" type="button" data-next aria-label="Siguiente">→</button>
       </div>
@@ -95,25 +96,15 @@
       Horizontal 16:9:       <figure class="pcar__slide pcar__slide--wide"><img src="..." alt="..." loading="lazy"></figure>
     -->
     <div class="pcar__track" tabindex="0">
-      <figure class="pcar__slide "><div class="slot">Pieza 1 · 4:5</div></figure>
-      <figure class="pcar__slide pcar__slide--reel"><div class="slot">Pieza 2 · 9:16</div></figure>
-      <figure class="pcar__slide "><div class="slot">Pieza 3 · 4:5</div></figure>
-      <figure class="pcar__slide pcar__slide--wide"><div class="slot">Pieza 4 · 16:9</div></figure>
-      <figure class="pcar__slide "><div class="slot">Pieza 5 · 4:5</div></figure>
-      <figure class="pcar__slide pcar__slide--reel"><div class="slot">Pieza 6 · 9:16</div></figure>
+      <figure class="pcar__slide"><img src="../img/proyectos/emporio-organika/c01.jpg" alt="Línea de productos Emporio Orgánika: cuidado natural" width="1080" height="1350" loading="lazy"></figure>
+      <figure class="pcar__slide pcar__slide--reel"><video src="../img/proyectos/emporio-organika/reel01.mp4" poster="../img/proyectos/emporio-organika/reel01.jpg" muted loop playsinline preload="none" aria-label="Reel: shampoo para cueros cabelludos delicados"></video></figure>
+      <figure class="pcar__slide pcar__slide--reel"><video src="../img/proyectos/emporio-organika/reel02.mp4" poster="../img/proyectos/emporio-organika/reel02.jpg" muted loop playsinline preload="none" aria-label="Reel: jabón espumoso Flor de Magnolio"></video></figure>
     </div>
   </section>
 
-  <!-- VIDEOS DE LA MARCA: subir video-01.mp4 y video-02.mp4 (+ portada video-01.jpg / video-02.jpg)
-       y reemplazar cada <div class="slot"> por:
-       <video src="../img/proyectos/emporio-organika/video-01.mp4" poster="../img/proyectos/emporio-organika/video-01.jpg" controls playsinline preload="none"></video>
-       Si un video es vertical, cambia la clase "pvid" por "pvid pvid--vertical". -->
-  <section class="proj__videos wrap" data-reveal aria-label="Videos de la marca">
-    <h2 class="proj__sub">En <b>movimiento.</b></h2>
-    <div class="proj__videos-grid">
-      <figure class="pvid"><div class="slot slot--video"><span>Video 1 · 16:9</span></div></figure>
-      <figure class="pvid"><div class="slot slot--video"><span>Video 2 · 16:9</span></div></figure>
-    </div>
+  <section class="proj__gallery proj__gallery--after wrap" data-reveal aria-label="Banners de campaña">
+    <figure class="full"><img src="../img/proyectos/emporio-organika/campana-02.jpg" alt="Banner de campaña: nueva línea capilar Maqui, Murta y Avellana" width="2400" height="1350" loading="lazy"></figure>
+    <figure class="full"><img src="../img/proyectos/emporio-organika/campana-03.jpg" alt="Banner de campaña: gel limpiador facial que regenera e hidrata" width="2400" height="1350" loading="lazy"></figure>
   </section>
 
   <dl class="proj__meta wrap">
