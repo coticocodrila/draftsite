@@ -1,4 +1,4 @@
-/* GEMMM — Generador de paletas */
+/* Gemm — Generador de paletas */
 (function () {
   const root = document.querySelector('[data-paleta]');
   if (!root) return;
@@ -119,7 +119,7 @@
       x.font = '700 34px "DM Sans", sans-serif'; x.fillText(c.hex, i * w + 28, 800);
       x.font = '400 24px "DM Sans", sans-serif'; x.fillText(c.name, i * w + 28, 846);
     });
-    const a = document.createElement('a'); a.download = 'paleta-gemmm.png'; a.href = cv.toDataURL('image/png'); a.click();
+    const a = document.createElement('a'); a.download = 'paleta-gemm.png'; a.href = cv.toDataURL('image/png'); a.click();
     avisar('PNG descargado');
   });
   document.addEventListener('keydown', e => {

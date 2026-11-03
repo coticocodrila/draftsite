@@ -1,4 +1,4 @@
-/* GEMMM — Pareja tipográfica (versión simple) */
+/* Gemm — Pareja tipográfica (versión simple) */
 (function () {
   const root = document.querySelector('[data-tipos]');
   if (!root) return;

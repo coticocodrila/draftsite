@@ -136,7 +136,8 @@ body.menu-open{overflow:hidden}
 .xlead{font-family:var(--font-display);font-weight:300;font-size:clamp(1.35rem,5.6vw,3rem);letter-spacing:-.03em;line-height:1.15;margin:20px 0 0}
 .xswap{display:inline-grid;vertical-align:bottom;overflow:hidden;height:1.2em;background:var(--x1);padding:0 .2em;margin-top:4px}
 .xswap b{grid-area:1/1;font-weight:800;transform:translateY(110%);transition:transform .6s var(--ease)}
-.xswap b.is-on{transform:none;transition-delay:.25s}
+.xswap b.is-on{transform:none;transition-delay:.35s}
+.xswap b.no-t{transition:none!important}
 .xswap b.is-out{transform:translateY(-110%);transition:transform .45s cubic-bezier(.5,0,.75,0)}
 .xhero__foot{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:32px;font-size:1rem}
 .xhero__foot p{margin:0;max-width:34ch}
@@ -175,7 +176,7 @@ body.menu-open{overflow:hidden}
 .pcap__arrow{font-weight:800;font-size:1.3rem;transition:transform .4s var(--ease)}
 .pcap__tags{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px}
 .pcap__tags span,.xprow__tags span{border:2px solid currentColor;padding:2px 8px;font-size:.8rem;font-weight:700;line-height:1.4;white-space:nowrap}
-.card--soon .pcap__name{font-weight:300;color:var(--muted)}
+.card--soon:not(.card--named) .pcap__name{font-weight:300;color:var(--muted)}
 a.card:active .pcap{background:var(--c,var(--x1))}
 @media (min-width:48rem){
   .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
@@ -229,12 +230,11 @@ a.card:active .pcap{background:var(--c,var(--x1))}
   .tcard:hover .tcard__art--pal i:nth-child(5){flex:.5}
   .tcard:hover .tcard__aa{font-weight:900;font-variation-settings:"wght" 900}
 }
-@media (hover:none){
-  .tcard__art--pal i:nth-child(1){animation:palA 4s var(--ease) infinite}
-  .tcard__art--pal i:nth-child(3){animation:palB 4s var(--ease) infinite}
-  .tcard__art--pal i:nth-child(5){animation:palC 4s var(--ease) infinite}
-  .tcard__aa{animation:aaW 3.2s ease-in-out infinite}
-}
+.tcard__art--pal.is-live i:nth-child(1){flex:2.2}
+.tcard__art--pal.is-live i:nth-child(3){flex:1.6}
+.tcard__art--pal.is-live i:nth-child(5){flex:.5}
+.tcard__aa.is-live{font-weight:900;font-variation-settings:"wght" 900}
+
 @keyframes palA{0%,100%{flex:1}50%{flex:2.2}}
 @keyframes palB{0%,100%{flex:1}35%{flex:.6}70%{flex:1.8}}
 @keyframes palC{0%,100%{flex:1}50%{flex:.4}}

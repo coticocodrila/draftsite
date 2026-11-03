@@ -1,9 +1,9 @@
 /* =========================================================
-   GEMMM — scripts compartidos (sin librerías externas)
+   Gemm — scripts compartidos (sin librerías externas)
    ========================================================= */
 
 /* ---- 1. Configuración ---- */
-const GEMMM = {
+const GEMM = {
   email: 'holacoticocodrila@gmail.com',
   // Valor de la UF para la página de precios (oculta). Actualízalo de vez en cuando (sii.cl)
   uf: 41123,
@@ -62,7 +62,7 @@ const GEMMM = {
   const tick = () => { const h = new Intl.DateTimeFormat('es-CL', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Santiago' }).format(new Date()); clocks.forEach(c => c.textContent = h); };
   if (clocks.length) { tick(); setInterval(tick, 30000); }
   $$('[data-uf]').forEach(el => {
-    const clp = Math.round(parseFloat(el.dataset.uf) * GEMMM.uf / 1000) * 1000;
+    const clp = Math.round(parseFloat(el.dataset.uf) * GEMM.uf / 1000) * 1000;
     el.textContent = '≈ $' + clp.toLocaleString('es-CL') + (el.dataset.unit || '') + ' + IVA';
   });
 
@@ -71,24 +71,24 @@ const GEMMM = {
     const label = a.querySelector('.xcontact__label'); if (!label) return;
     const txt = label.textContent; let t;
     a.addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText(GEMMM.email); label.textContent = 'Correo copiado ✓'; }
-      catch (e) { label.textContent = GEMMM.email; }
+      try { await navigator.clipboard.writeText(GEMM.email); label.textContent = 'Correo copiado ✓'; }
+      catch (e) { label.textContent = GEMM.email; }
       clearTimeout(t); t = setTimeout(() => label.textContent = txt, 3000);
     });
   });
 
   /* ---- 5. Newsletter (oculto hasta que se conecte) ---- */
-  if (GEMMM.newsletter) $$('.foot2__news[hidden]').forEach(el => el.hidden = false);
+  if (GEMM.newsletter) $$('.foot2__news[hidden]').forEach(el => el.hidden = false);
   $$('[data-newsletter]').forEach(form => {
     const msg = form.parentElement.querySelector('.news__msg');
     form.addEventListener('submit', async e => {
       e.preventDefault();
       const email = form.querySelector('input[type=email]');
       if (!email.value || !email.checkValidity()) { msg.textContent = 'Revisa tu correo, parece que falta algo.'; email.focus(); return; }
-      if (!GEMMM.newsletter) return;
+      if (!GEMM.newsletter) return;
       const data = new FormData(form); data.append('ml-submit', '1'); data.append('anticsrf', 'true');
       const btn = form.querySelector('button'); btn.disabled = true;
-      try { await fetch(GEMMM.newsletter, { method: 'POST', body: data, mode: 'no-cors' }); form.reset(); msg.textContent = '¡Listo! Revisa tu correo para confirmar la suscripción.'; }
+      try { await fetch(GEMM.newsletter, { method: 'POST', body: data, mode: 'no-cors' }); form.reset(); msg.textContent = '¡Listo! Revisa tu correo para confirmar la suscripción.'; }
       catch (err) { msg.textContent = 'No se pudo completar la suscripción. Inténtalo de nuevo en un momento.'; }
       btn.disabled = false;
     });
@@ -119,7 +119,8 @@ const GEMMM = {
     if (!reduce) setInterval(() => {
       const cur = words[wi]; wi = (wi + 1) % words.length; const nx = words[wi];
       cur.classList.remove('is-on'); cur.classList.add('is-out'); nx.classList.add('is-on');
-      setTimeout(() => cur.classList.remove('is-out'), 500);
+      // vuelve a su lugar de espera (abajo) sin animarse, para que no cruce el recuadro
+      setTimeout(() => { cur.classList.add('no-t'); cur.classList.remove('is-out'); void cur.offsetWidth; cur.classList.remove('no-t'); }, 700);
     }, 2300);
   }
 
@@ -152,6 +153,12 @@ const GEMMM = {
     });
     word.addEventListener('pointerleave', () => { cancelAnimationFrame(raf); letters.forEach(l => { set(l, base(l)); l.classList.remove('on'); }); });
   });
+
+  /* ---- 8b. En celular, las tarjetas de herramientas del inicio repiten el efecto del cursor ---- */
+  if (matchMedia('(hover: none)').matches && !reduce) {
+    const live = $$('.tcard__art--pal, .tcard__aa');
+    if (live.length) { let on = false; setInterval(() => { on = !on; live.forEach(el => el.classList.toggle('is-live', on)); }, 1800); }
+  }
 
   /* ---- 9. Herramientas: vistas previas vivas (página Herramientas) ---- */
   const palPrev = document.querySelector('[data-pal-preview]');
