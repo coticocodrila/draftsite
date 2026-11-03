@@ -246,6 +246,8 @@ a.card:active .pcap{background:var(--c,var(--x1))}
 .xcontact__title{font-size:clamp(2.6rem,12vw,11rem);font-weight:300;letter-spacing:-.05em;line-height:1;white-space:nowrap;user-select:none}
 .xcontact__title span[aria-hidden]{display:inline-block;font-weight:var(--w,300);font-variation-settings:"wght" var(--w,300);transition:font-weight .45s var(--ease-out),font-variation-settings .45s var(--ease-out),color .3s}
 .xcontact__title span.on{color:var(--x1)}
+.xcontact__title span[aria-hidden]{transition:color .25s}
+@media (hover:hover){.xcontact__title span[aria-hidden]:hover{color:var(--x1)}}
 .xcontact__lead{max-width:44ch;margin:20px auto 0;color:#d4d4d4;font-size:1.05rem}
 .xcontact__actions{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:32px}
 .xcontact__btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:60px;width:min(100%,320px);padding:0 28px;background:var(--x1);color:var(--ink);font-family:var(--font-display);font-weight:800;font-size:1.25rem;transition:transform .5s var(--ease)}
@@ -574,3 +576,19 @@ a.card:active .pcap,.grid a.card:active .pcap{background:linear-gradient(to top,
   .grid a.card:hover .cover img{transform:scale(1.04)}
 }
 @media (prefers-reduced-motion:reduce){.grid .cover img{transition:none}.grid a.card:hover .cover img{transform:none}}
+
+/* Hero: fondo con gradiente en movimiento (prueba) */
+.xhero{isolation:isolate;overflow:hidden}
+.xhero::before{content:"";position:absolute;inset:-25%;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(40% 45% at 20% 30%,rgba(74,130,226,.55),transparent 70%),
+    radial-gradient(38% 42% at 80% 25%,rgba(255,107,74,.45),transparent 70%),
+    radial-gradient(45% 45% at 55% 80%,rgba(184,243,90,.6),transparent 70%);
+  filter:blur(40px);
+  -webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent);
+  animation:xheroBg 16s ease-in-out infinite alternate}
+@keyframes xheroBg{
+  0%{transform:translate3d(0,0,0) rotate(0deg) scale(1)}
+  50%{transform:translate3d(6%,-4%,0) rotate(25deg) scale(1.1)}
+  100%{transform:translate3d(-6%,5%,0) rotate(-20deg) scale(1.05)}}
+@media (prefers-reduced-motion:reduce){.xhero::before{animation:none}}

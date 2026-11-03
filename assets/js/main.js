@@ -130,7 +130,8 @@ const GEMM = {
     const base = l => +(l.dataset.b || 300);
     const set = (l, w) => l.style.setProperty('--w', Math.round(w));
     letters.forEach(l => set(l, base(l)));
-    if (reduce) return;
+    // "¿Hablamos?" no se anima: solo cambia de color con el cursor (CSS)
+    if (reduce || word.classList.contains('xcontact__title')) return;
     // una ola cuando el texto aparece en pantalla
     const gap = Math.min(110, 1400 / letters.length);
     const wave = () => letters.forEach((l, i) => {
