@@ -225,7 +225,7 @@
     });
   });
 
-  // Audiovisual: 3 videos verticales (el resto queda en el carrusel)
+  // Movimiento: 4 videos verticales (el resto queda en el carrusel)
   const slots = $$('#movimiento [data-slot]');
   if (slots.length) {
     const bagA = shuffle(AUDIO.map((m, i) => i).filter(i => AUDIO[i][4]));
@@ -245,7 +245,7 @@
   $$('.tile').forEach(t => { const m = $('.tile__frame img, .tile__frame video', t); if (!m) return; const r = ratioOf(m.tagName === 'VIDEO' ? m.getAttribute('poster') : m.getAttribute('src')); if (r) { t.style.setProperty('--r', r); t.style.setProperty('--rg', Math.round(r * 1000)); } });
   /* celular: piezas hacia abajo en filas de igual altura, sin recortes ni deslizar */
   const mq = matchMedia('(max-width: 47.99rem)');
-  const rows = $$('.tiles__row, .tiles--mov');
+  const rows = $$('.tiles__row');
   const justify = () => {
     rows.forEach(row => {
       $$('.brk', row).forEach(b => b.remove());

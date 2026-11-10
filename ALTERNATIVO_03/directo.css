@@ -277,3 +277,9 @@ h1,h2,p{margin:0}ul{margin:0;padding:0;list-style:none}
 .area__in>*,.tiles,.tiles__row{min-width:0}
 .tiles--mov .tile__cap{font-size:.95rem!important;padding:0!important}
 @media (max-width:47.99rem){.tiles--mov .tile__cap{font-size:.8rem!important}}
+
+/* Movimiento: 4 videos en dos filas (2 × 2), siempre 9:16 */
+.tiles.tiles--mov{display:grid!important;grid-template-columns:1fr 1fr;gap:24px 10px}
+.tiles--mov .tile{width:auto!important;flex:none!important}
+.tiles--mov .tile__frame{aspect-ratio:9/16!important}
+@media (min-width:48rem){.tiles.tiles--mov{gap:28px 16px;max-width:760px}}
