@@ -1,0 +1,59 @@
+/* =========================================================
+   Gemm · página de proyecto (ALTERNATIVO_03)
+   Una sola retícula de dos columnas (1/3 · 2/3) ordena todo:
+   encabezado, capítulos e imágenes verticales.
+   ========================================================= */
+.case{--col:1fr;--cg:20px;--gm:10px}
+@media (min-width:48rem){.case{--col:minmax(0,1fr) minmax(0,2fr);--cg:32px;--gm:16px}}
+
+/* encabezado */
+.case__head{padding-top:28px}
+.back{display:inline-flex;align-items:center;gap:8px;min-height:44px;color:var(--dim);font-size:.9rem}
+.back:hover{color:var(--fg)}
+.case__title{margin:18px 0 0;font-size:clamp(2.6rem,8vw,6rem);font-weight:600;letter-spacing:-.055em;line-height:.95}
+.case__intro{display:grid;grid-template-columns:var(--col);gap:28px var(--cg);margin-top:36px;padding-top:18px;border-top:1px solid var(--fg)}
+.case__summary{margin:0;font-size:clamp(1.25rem,2.4vw,1.75rem);line-height:1.3;letter-spacing:-.025em;max-width:34ch}
+.case__meta{margin:0;display:grid;gap:14px;align-content:start}
+.case__meta dt{font-size:.7rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.case__meta dd{margin:3px 0 0;font-size:.95rem;line-height:1.4;max-width:30ch}
+@media (max-width:47.99rem){.case__summary{order:-1}.case__meta{grid-template-columns:1fr 1fr}.case__meta div:last-child{grid-column:1/-1}}
+@media (min-width:48rem){.case__head{padding-top:56px}.case__title{margin-top:24px}.case__intro{margin-top:56px;padding-top:22px}}
+
+/* portada */
+.case__cover{margin:40px 0 0;background:var(--card)}
+.case__cover.blocks{background:none}
+@media (min-width:48rem){.case__cover{margin-top:64px}}
+
+/* capítulos: etiqueta | texto, luego imágenes */
+.chap{padding-top:72px}
+.chap__head{display:grid;grid-template-columns:var(--col);gap:10px var(--cg);padding-top:16px;margin-bottom:24px;border-top:1px solid var(--rule)}
+.chap__label{margin:0;font-size:.7rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);padding-top:5px}
+.chap__text{margin:0;font-size:clamp(1.05rem,1.6vw,1.3rem);line-height:1.45;letter-spacing:-.012em;max-width:44ch}
+.chap--text .chap__head{margin-bottom:0}
+@media (min-width:48rem){.chap{padding-top:128px}.chap__head{padding-top:20px;margin-bottom:40px}}
+
+/* imágenes */
+.blocks{display:grid;gap:var(--gm)}
+.blk-m{margin:0;background:var(--card);aspect-ratio:var(--r,auto);overflow:hidden}
+.blk-m img,.blk-m video{display:block;width:100%;height:100%;object-fit:cover}
+.blk-m--white{background:#fff;outline:1px solid var(--rule);outline-offset:-1px}
+/* pares: el ancho de cada pieza sigue su proporción, así ambas quedan a la misma altura sin recortes */
+.blocks--pair{display:flex;align-items:flex-start}
+.blocks--pair>.blk-m{flex:var(--r) 1 0;min-width:0}
+/* piezas verticales: ocupan la columna del texto */
+.blocks--narrow{grid-template-columns:var(--col);column-gap:var(--cg)}
+.blocks__side{max-width:300px}
+@media (min-width:48rem){
+  .blocks__side{grid-column:2;max-width:400px}
+  .blocks--side{margin-left:calc((100% - var(--cg)) / 3 + var(--cg))}
+}
+
+/* siguiente proyecto */
+.next{display:block;margin-top:120px;padding-bottom:8px}
+.next::before{content:"";display:block;border-top:1px solid var(--fg);margin-bottom:22px}
+.next__label{font-size:.7rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.next__title{margin:10px 0 0;font-size:clamp(1.6rem,3.4vw,2.6rem);font-weight:500;letter-spacing:-.04em;line-height:1.05}
+.next__title span{display:inline-block;transition:transform .35s var(--ease)}
+@media (hover:hover){.next:hover .next__title span{transform:translateX(8px)}}
+@media (min-width:48rem){.next{margin-top:160px}}
+.next__title b{font-weight:inherit}
