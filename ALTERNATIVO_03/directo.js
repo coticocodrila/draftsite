@@ -94,8 +94,8 @@
   $$('[data-mail]').forEach(a => {
     const label = $('[data-label]', a), txt = label.textContent; let t;
     a.addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText(EMAIL); label.textContent = 'Correo copiado ✓'; } catch (e) {}
-      clearTimeout(t); t = setTimeout(() => label.textContent = txt, 3000);
+      try { await navigator.clipboard.writeText(EMAIL); label.textContent = 'Correo copiado ✓'; a.classList.add('is-copied'); } catch (e) {}
+      clearTimeout(t); t = setTimeout(() => { label.textContent = txt; a.classList.remove('is-copied'); }, 3000);
     });
   });
 
@@ -221,7 +221,7 @@
       if (it.vid) { el.setAttribute('muted', ''); el.setAttribute('playsinline', ''); el.dataset.autoplay = ''; el.setAttribute('aria-label', it.name + ', ' + it.sub); }
       old ? old.replaceWith(el) : tile.prepend(el);
       if (it.vid) vio.observe(el);
-      $('.tile__cap', tile).innerHTML = `${it.name} <i>${it.sub}</i>`;
+      $('.tile__cap', tile).innerHTML = `<b>${it.name}</b> <i>${it.sub}</i>`;
     });
   });
 
@@ -236,7 +236,7 @@
       const v = $('video', s); vio.unobserve(v);
       v.src = src.slice(2); v.poster = poster; v.setAttribute('aria-label', alt);
       vio.observe(v);
-      $('.tile__cap', s).textContent = label;
+      $('.tile__cap', s).innerHTML = `<b>${label}</b>`;
     });
   }
   /* proporción real de cada pieza (para el celular: misma altura sin recortes) */
@@ -261,6 +261,18 @@
     });
   };
   justify(); mq.addEventListener('change', justify); addEventListener('resize', justify);
+  /* cursor flúor: un círculo que acompaña al mouse sobre los trabajos */
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !reduce) {
+    const cur = Object.assign(document.createElement('div'), { className: 'cursor', ariaHidden: 'true' });
+    cur.innerHTML = '<span></span>'; document.body.append(cur); document.documentElement.classList.add('has-cursor');
+    let x = 0, y = 0, cx = 0, cy = 0, raf = 0;
+    const loop = () => { cx += (x - cx) * .2; cy += (y - cy) * .2; cur.style.transform = `translate3d(${cx}px,${cy}px,0)`; raf = Math.abs(x - cx) + Math.abs(y - cy) > .3 ? requestAnimationFrame(loop) : 0; };
+    addEventListener('mousemove', e => { x = e.clientX; y = e.clientY; if (!raf) raf = requestAnimationFrame(loop); }, { passive: true });
+    $$('.tile').forEach(t => {
+      t.addEventListener('mouseenter', () => { $('span', cur).textContent = t.dataset.open === 'audio' ? 'Play' : 'Ver'; cur.classList.add('is-on'); });
+      t.addEventListener('mouseleave', () => cur.classList.remove('is-on'));
+    });
+  }
   try { localStorage.setItem('gemm-portada', JSON.stringify(shownNow)); } catch (e) {}
 
   /* ---- Ventana de proyecto ---- */
