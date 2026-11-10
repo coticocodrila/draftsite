@@ -218,7 +218,7 @@
       const el = it.vid
         ? Object.assign(document.createElement('video'), { src: it.vid, poster: it.poster, muted: true, loop: true, playsInline: true, preload: 'none' })
         : Object.assign(document.createElement('img'), { src: it.img, alt: it.name, loading: 'lazy' });
-      if (it.vid) { el.setAttribute('muted', ''); el.setAttribute('playsinline', ''); el.dataset.autoplay = ''; el.setAttribute('aria-label', it.name + ', ' + it.sub); }
+      if (it.vid) { el.setAttribute('muted', ''); el.setAttribute('playsinline', ''); el.setAttribute('autoplay', ''); el.dataset.autoplay = ''; el.setAttribute('aria-label', it.name + ', ' + it.sub); }
       old ? old.replaceWith(el) : tile.prepend(el);
       if (it.vid) vio.observe(el);
       $('.tile__cap', tile).innerHTML = `<b>${it.name}</b> <i>${it.sub}</i>`;
@@ -234,7 +234,7 @@
       const [src, alt, poster, label] = AUDIO[i];
       s.dataset.start = i;
       const v = $('video', s); vio.unobserve(v);
-      v.src = src.slice(2); v.poster = poster; v.setAttribute('aria-label', alt);
+      v.src = src.slice(2); v.poster = poster; v.setAttribute('aria-label', alt); v.muted = true;
       vio.observe(v);
       $('.tile__cap', s).innerHTML = `<b>${label}</b>`;
     });
@@ -261,18 +261,6 @@
     });
   };
   justify(); mq.addEventListener('change', justify); addEventListener('resize', justify);
-  /* cursor flúor: un círculo que acompaña al mouse sobre los trabajos */
-  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !reduce) {
-    const cur = Object.assign(document.createElement('div'), { className: 'cursor', ariaHidden: 'true' });
-    cur.innerHTML = '<span></span>'; document.body.append(cur); document.documentElement.classList.add('has-cursor');
-    let x = 0, y = 0, cx = 0, cy = 0, raf = 0;
-    const loop = () => { cx += (x - cx) * .2; cy += (y - cy) * .2; cur.style.transform = `translate3d(${cx}px,${cy}px,0)`; raf = Math.abs(x - cx) + Math.abs(y - cy) > .3 ? requestAnimationFrame(loop) : 0; };
-    addEventListener('mousemove', e => { x = e.clientX; y = e.clientY; if (!raf) raf = requestAnimationFrame(loop); }, { passive: true });
-    $$('.tile').forEach(t => {
-      t.addEventListener('mouseenter', () => { $('span', cur).textContent = t.dataset.open === 'audio' ? 'Play' : 'Ver'; cur.classList.add('is-on'); });
-      t.addEventListener('mouseleave', () => cur.classList.remove('is-on'));
-    });
-  }
   try { localStorage.setItem('gemm-portada', JSON.stringify(shownNow)); } catch (e) {}
 
   /* ---- Ventana de proyecto ---- */

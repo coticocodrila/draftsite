@@ -283,8 +283,6 @@ h1,h2,p{margin:0}ul{margin:0;padding:0;list-style:none}
 .tiles--mov .tile{width:auto!important;flex:none!important}
 .tiles--mov .tile__frame{aspect-ratio:9/16!important}
 @media (min-width:48rem){.tiles.tiles--mov{gap:28px 16px;max-width:760px}}
-/* piezas sobre fondo blanco (Dr. Fungi): borde suave para que no se pierdan */
-.tile--fit .tile__frame{outline:1px solid var(--rule);outline-offset:-1px}
 
 /* =========================================================
    Detalles en flúor (el mismo color del botón Contacto)
@@ -319,12 +317,10 @@ h1,h2,p{margin:0}ul{margin:0;padding:0;list-style:none}
 .area__n{display:inline-flex;align-items:center;justify-content:center;min-width:2.1em;height:1.5em;padding:0 .4em;background:var(--acc);color:var(--fg);font-size:.78rem;font-weight:600;letter-spacing:.02em;align-self:center}
 @media (min-width:70rem){.area__n{justify-self:start}}
 
-/* cursor flúor sobre los trabajos (solo con mouse) */
-.cursor{position:fixed;left:0;top:0;z-index:200;pointer-events:none}
-.cursor span{display:grid;place-items:center;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;background:var(--acc);color:var(--fg);font-weight:600;font-size:.9rem;letter-spacing:-.01em;transform:scale(0);transition:transform .35s var(--ease)}
-.cursor.is-on span{transform:scale(1)}
-.has-cursor .tile{cursor:none}
-
 /* correo copiado: aviso en flúor */
 [data-label]{transition:background .3s}
 .is-copied [data-label]{background:var(--acc)}
+
+/* Dr. Fungi en la portada: sin borde ni fondo gris alrededor del video */
+.tile--fit .tile__frame{background:#fff;outline:0}
+.tile--wide.tile--fit .tile__frame video,.tile--wide.tile--fit .tile__frame img{object-fit:cover}
