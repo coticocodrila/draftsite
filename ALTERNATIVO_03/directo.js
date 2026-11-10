@@ -213,7 +213,7 @@
       const it = pick(bag[tile.dataset.kind], srcOf, it => !used.has(it.open)); if (!it) return; used.add(it.open);
       tile.dataset.open = it.open;
       tile.classList.toggle('tile--fit', !!it.fit);
-      tile.style.background = it.bg || '';
+      $('.tile__frame', tile).style.background = it.bg || '';
       const old = $('img,video', tile); if (old && old.tagName === 'VIDEO') vio.unobserve(old);
       const el = it.vid
         ? Object.assign(document.createElement('video'), { src: it.vid, poster: it.poster, muted: true, loop: true, playsInline: true, preload: 'none' })
@@ -239,6 +239,10 @@
       $('.tile__cap', s).textContent = label;
     });
   }
+  /* proporción real de cada pieza (para el celular: misma altura sin recortes) */
+  const RATIO = {"img/proyectos/audiovisual/videograbacion.jpg": 0.562, "img/proyectos/audiovisual/cdrp.jpg": 1.893, "img/proyectos/audiovisual/siegel.jpg": 0.562, "img/proyectos/audiovisual/obk.jpg": 0.562, "img/proyectos/audiovisual/animacion1.jpg": 0.562, "img/proyectos/panbo/video-01.jpg": 0.558, "img/proyectos/panbo/produccion.jpg": 0.75, "img/proyectos/panbo/video-02.jpg": 0.558, "img/proyectos/distrito-valpo/piezas.jpg": 1.778, "img/proyectos/distrito-valpo/principal.jpg": 1.778, "img/proyectos/distrito-valpo/mapa-celular.jpg": 1.778, "img/proyectos/micovitae/video.jpg": 0.562, "img/proyectos/emporio-organika/reel01.jpg": 0.562, "img/proyectos/emporio-organika/campana-03.jpg": 1.778, "img/proyectos/emporio-organika/principal.jpg": 1.778, "img/proyectos/emporio-organika/c01.jpg": 0.8, "img/proyectos/emporio-organika/campana-02.jpg": 1.778, "img/proyectos/emporio-organika/reel02.jpg": 0.562, "img/proyectos/420-genetics/reel.jpg": 0.562, "img/proyectos/dr-fungi/web-productos.jpg": 1.6, "img/proyectos/dr-fungi/web-desktop-video.jpg": 1.778, "img/proyectos/dr-fungi/web-desktop.jpg": 1.6, "img/proyectos/dr-fungi/web-producto.jpg": 1.6, "img/proyectos/dr-fungi/web-mobile-video.jpg": 0.562, "img/portadas/emporio-organika.jpg": 0.8, "img/portadas/distrito-valpo.jpg": 0.8, "f6454a230944027": 3.191, "6b29cd230944027": 1.928, "52150e230944027": 1.517, "5dbbb9230944027": 1.517, "3e8de0230944027": 1.997};
+  const ratioOf = s => { s = key(s); if (RATIO[s]) return RATIO[s]; for (const k in RATIO) if (s.includes(k)) return RATIO[k]; return 0; };
+  $$('.tile').forEach(t => { const m = $('.tile__frame img, .tile__frame video', t); if (!m) return; const r = ratioOf(m.tagName === 'VIDEO' ? m.getAttribute('poster') : m.getAttribute('src')); if (r) t.style.setProperty('--r', r); });
   try { localStorage.setItem('gemm-portada', JSON.stringify(shownNow)); } catch (e) {}
 
   /* ---- Ventana de proyecto ---- */

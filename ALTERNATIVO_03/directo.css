@@ -42,13 +42,14 @@ h1,h2,p{margin:0}ul{margin:0;padding:0;list-style:none}
 .hero__title{font-size:clamp(2.8rem,12.5vw,9.5rem);font-weight:500;line-height:.92;letter-spacing:-.055em}
 .hero__sub{margin-top:20px;color:var(--dim)}
 .reel{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:40px}
-.reel__a{grid-column:1/-1;aspect-ratio:4/3}
-.reel__b,.reel__c{aspect-ratio:3/4}
+.reel__a{grid-column:1/-1}
+.reel__a .tile__frame{aspect-ratio:4/3}
+.reel__b .tile__frame,.reel__c .tile__frame{aspect-ratio:3/4}
 @media (min-width:48rem){
   .hero{padding-top:88px}.hero__sub{margin-top:28px;font-size:1.1rem}
   .reel{grid-template-columns:1.25fr .75fr 1fr;gap:12px;margin-top:72px}
-  .reel__a{grid-column:auto;aspect-ratio:auto}
-  .reel__a,.reel__b,.reel__c{height:min(72vh,640px)}
+  .reel__a{grid-column:auto}
+  .reel .tile__frame{aspect-ratio:auto!important;height:min(72vh,640px)}
 }
 
 /* fila de marcas */
@@ -79,10 +80,11 @@ h1,h2,p{margin:0}ul{margin:0;padding:0;list-style:none}
 .area__t{font-size:clamp(2.6rem,11vw,6rem);font-weight:500;letter-spacing:-.05em;line-height:.95}
 .area__d{margin-top:12px;color:var(--dim)}
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.tiles .tile{aspect-ratio:4/5}
-.tiles .tile--wide{grid-column:1/-1;aspect-ratio:16/10}
-.tiles--mov .tile{aspect-ratio:9/14}
-@media (min-width:48rem){.tiles{gap:12px}.tiles--mov{grid-template-columns:repeat(3,1fr)}.tiles--mov .tile{aspect-ratio:9/16}}
+.tiles .tile__frame{aspect-ratio:4/5}
+.tiles .tile--wide{grid-column:1/-1}
+.tiles .tile--wide .tile__frame{aspect-ratio:16/10}
+.tiles--mov .tile__frame{aspect-ratio:9/14}
+@media (min-width:48rem){.tiles{gap:12px}.tiles--mov{grid-template-columns:repeat(3,1fr)}.tiles--mov .tile__frame{aspect-ratio:9/16}}
 @media (min-width:70rem){
   .area__in{grid-template-columns:minmax(300px,1fr) 2.4fr;gap:48px;align-items:start}
   .area__t{font-size:clamp(3rem,4vw,5rem)}
@@ -144,7 +146,7 @@ h1,h2,p{margin:0}ul{margin:0;padding:0;list-style:none}
 /* celular: cada imagen con su proporción real, sin recortes */
 @media (max-width:47.99rem){
   .reel,.tiles{align-items:start}
-  .reel .tile,.tiles .tile,.tiles .tile--wide,.tiles--mov .tile{aspect-ratio:auto}
+  .reel .tile__frame,.tiles .tile__frame,.tiles .tile--wide .tile__frame,.tiles--mov .tile__frame{aspect-ratio:auto}
   .tile img,.tile video{height:auto;object-fit:contain}
   .js .tile[data-rv]{clip-path:inset(6% 0 0 0)}
   .js .tile[data-rv] img,.js .tile[data-rv] video{scale:1}
@@ -154,7 +156,7 @@ h1,h2,p{margin:0}ul{margin:0;padding:0;list-style:none}
 .tile--fit img{object-fit:contain}
 @media (min-width:48rem){.tile--fit img{height:100%;margin-top:0;translate:none}}
 /* fila de tres en computador */
-@media (min-width:48rem){.tiles--3{grid-template-columns:repeat(3,1fr)}.tiles--3 .tile{aspect-ratio:9/14}.tiles--3 .tile--wide{aspect-ratio:16/10}}
+@media (min-width:48rem){.tiles--3{grid-template-columns:repeat(3,1fr)}.tiles--3 .tile__frame{aspect-ratio:9/14}.tiles--3 .tile--wide .tile__frame{aspect-ratio:16/10}}
 @media (max-width:47.99rem){.tiles--3 .tile:last-child{grid-column:1/-1}}
 /* hero: las líneas del título suben al cargar */
 .hero__title .ln{display:block;overflow:hidden}
@@ -167,7 +169,7 @@ h1,h2,p{margin:0}ul{margin:0;padding:0;list-style:none}
 .tiles--mov .tile__cap i{display:none!important}
 
 /* Audiovisual: casillas que alternan videos (siempre 9:16, sin recorte) */
-.tiles .tile--slot,.tiles--mov .tile--slot{aspect-ratio:9/16}
+.tiles .tile--slot .tile__frame,.tiles--mov .tile--slot .tile__frame{aspect-ratio:9/16}
 .tile__layer{position:absolute;inset:0;opacity:0;transition:opacity .9s var(--ease)}
 .tile__layer.is-on{opacity:1}
 .tile__layer video{width:100%;height:100%!important;margin:0!important;translate:none!important;object-fit:cover}
@@ -219,3 +221,61 @@ h1,h2,p{margin:0}ul{margin:0;padding:0;list-style:none}
 /* línea que separa el último bloque de "Conversemos" (igual a la de los datos de contacto) */
 .contact:not(.contact--page) .wrap::before{content:"";display:block;border-top:1px solid var(--fg);margin-bottom:var(--sec)}
 .contact:not(.contact--page){padding-top:var(--sec)}
+
+
+/* =========================================================
+   Portada v4 — jerarquía y celular
+   · la imagen va en su marco y el nombre del proyecto debajo (sin cajas encima)
+   · títulos de área más contenidos: el hero manda
+   · celular: piezas sin recortar y a la misma altura; filas que se deslizan
+   ========================================================= */
+.tile{display:flex;flex-direction:column;gap:10px;overflow:visible;background:none!important}
+.tile__frame{position:relative;display:block;width:100%;overflow:hidden;background:var(--card)}
+.tile--fit .tile__frame{background:#F2F2F2}
+.tile__cap{position:static;display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 8px;max-width:none;padding:0;background:none!important;font-size:.95rem;font-weight:600;letter-spacing:-.01em;line-height:1.25}
+.tile__cap i{display:inline!important;font-weight:400;color:var(--dim)}
+.tiles--mov .tile__cap{font-weight:500}
+@media (hover:hover){
+  .tile__cap{background-image:none}
+  .tile:hover .tile__cap{color:var(--fg)}
+  .tile:hover .tile__cap::after{content:"→";font-weight:400;margin-left:2px}
+}
+
+/* encabezado de área: línea, número y nombre en una fila */
+.area__head{display:grid;grid-template-columns:auto 1fr;align-items:baseline;column-gap:14px;padding-top:16px;border-top:1px solid var(--fg)}
+.area__n{margin:0;font-size:.9rem}
+.area__t{font-size:clamp(2rem,8.5vw,4.2rem)}
+.area__d{grid-column:2;margin-top:8px;font-size:.95rem}
+@media (min-width:70rem){.area__head{grid-template-columns:1fr;padding-top:20px}.area__d{grid-column:1}.area__n{margin-bottom:6px}.area__t{font-size:clamp(2.6rem,3.6vw,4.2rem)}}
+
+/* celular */
+@media (max-width:47.99rem){
+  .hero{padding-top:36px}
+  .reel{display:flex;flex-wrap:wrap;gap:24px 10px;margin-top:32px}
+  .reel__a{flex:1 1 100%}
+  .reel__b,.reel__c{flex:var(--r,.7) 1 0;min-width:0}
+  .reel .tile__frame{aspect-ratio:var(--r,auto)!important}
+
+  .area{padding-top:64px}
+  .area__in{gap:20px}
+  .tiles{display:flex;flex-wrap:wrap;gap:24px 10px}
+  .tiles .tile{flex:var(--r,.8) 1 0;min-width:0}
+  .tiles .tile--wide{flex:1 1 100%;order:-1}
+  .tiles .tile__frame{aspect-ratio:var(--r,auto)!important}
+  .tiles .tile__frame img,.tiles .tile__frame video{height:100%;object-fit:cover}
+  .tile--fit .tile__frame img,.tile--fit .tile__frame video{object-fit:contain}
+
+  /* Web y Movimiento: fila que se desliza, misma altura, sin recortes */
+  .tiles__row,.tiles--mov{display:flex;flex:1 1 100%;flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(var(--g) * -1);padding-inline:var(--g);scroll-padding-inline:var(--g);scrollbar-width:none;gap:10px}
+  .tiles__row::-webkit-scrollbar,.tiles--mov::-webkit-scrollbar{display:none}
+  .tiles__row .tile,.tiles--mov .tile{flex:0 0 auto!important;width:calc(260px * var(--r,.8));scroll-snap-align:start}
+  .tiles--mov .tile{width:200px}
+  .tiles--mov .tile__frame{aspect-ratio:9/16!important}
+  .tiles--3 .tile:last-child{grid-column:auto}
+  .js .tiles__row .tile[data-rv],.js .tiles--mov .tile[data-rv]{clip-path:none}
+}
+.tiles__row{display:contents}
+@media (max-width:47.99rem){.tiles__row{display:flex}}
+.area__in>*,.tiles,.tiles__row{min-width:0}
+@media (max-width:47.99rem){.tiles__row .tile{width:min(calc(260px * var(--r,.8)),78vw)}.tiles__row .tile__frame{height:260px;aspect-ratio:auto!important}.tiles__row .tile__frame img,.tiles__row .tile__frame video{object-fit:cover}.tiles__row .tile--fit .tile__frame video,.tiles__row .tile--fit .tile__frame img{object-fit:contain}}
+.tiles--mov .tile__cap{font-size:.95rem!important;padding:0!important}
