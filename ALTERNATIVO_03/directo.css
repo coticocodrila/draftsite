@@ -324,3 +324,6 @@ h1,h2,p{margin:0}ul{margin:0;padding:0;list-style:none}
 /* Dr. Fungi en la portada: sin borde ni fondo gris alrededor del video */
 .tile--fit .tile__frame{background:#fff;outline:0}
 .tile--wide.tile--fit .tile__frame video,.tile--wide.tile--fit .tile__frame img{object-fit:cover}
+
+/* videos: nunca mostrar el botón de play del navegador */
+video::-webkit-media-controls,video::-webkit-media-controls-start-playback-button,video::-webkit-media-controls-overlay-play-button{display:none!important;-webkit-appearance:none}

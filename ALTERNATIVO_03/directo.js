@@ -101,9 +101,17 @@
 
   /* ---- Videos que se reproducen al estar a la vista ---- */
   const vio = new IntersectionObserver(es => es.forEach(e => {
-    const v = e.target; if (e.isIntersecting && !reduce) { v.preload = 'auto'; v.play().catch(() => {}); } else v.pause();
+    const v = e.target; if (e.isIntersecting) { v.preload = 'auto'; v.muted = true; v.play().catch(() => {}); } else v.pause();
   }), { threshold: .3 });
   $$('video[data-autoplay]').forEach(v => vio.observe(v));
+  // respaldo: si el navegador frenó el inicio automático, se vuelve a intentar al cargar, al tocar o al hacer scroll
+  const kick = () => document.querySelectorAll('video[data-autoplay]').forEach(v => {
+    const r = v.getBoundingClientRect();
+    if (v.paused && r.width && r.bottom > 0 && r.top < innerHeight) { v.muted = true; v.play().catch(() => {}); }
+  });
+  let kt = 0; const kickSoon = () => { if (!kt) kt = requestAnimationFrame(() => { kt = 0; kick(); }); };
+  ['touchstart', 'pointerdown', 'keydown', 'scroll'].forEach(ev => addEventListener(ev, kickSoon, { passive: true }));
+  addEventListener('load', kick); document.addEventListener('visibilitychange', () => { if (!document.hidden) kick(); });
 
   /* ---- Animaciones sutiles al hacer scroll ---- */
   if (!reduce) {

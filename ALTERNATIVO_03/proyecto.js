@@ -4,9 +4,17 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.documentElement.classList.add('js');
   const vio = new IntersectionObserver(es => es.forEach(e => {
-    const v = e.target; if (e.isIntersecting && !reduce) { v.preload = 'auto'; v.play().catch(() => {}); } else v.pause();
+    const v = e.target; if (e.isIntersecting) { v.preload = 'auto'; v.muted = true; v.play().catch(() => {}); } else v.pause();
   }), { threshold: .25 });
   $$('video[data-autoplay]').forEach(v => vio.observe(v));
+  // respaldo: si el navegador frenó el inicio automático, se vuelve a intentar al cargar, al tocar o al hacer scroll
+  const kick = () => document.querySelectorAll('video[data-autoplay]').forEach(v => {
+    const r = v.getBoundingClientRect();
+    if (v.paused && r.width && r.bottom > 0 && r.top < innerHeight) { v.muted = true; v.play().catch(() => {}); }
+  });
+  let kt = 0; const kickSoon = () => { if (!kt) kt = requestAnimationFrame(() => { kt = 0; kick(); }); };
+  ['touchstart', 'pointerdown', 'keydown', 'scroll'].forEach(ev => addEventListener(ev, kickSoon, { passive: true }));
+  addEventListener('load', kick); document.addEventListener('visibilitychange', () => { if (!document.hidden) kick(); });
   $$('[data-mail]').forEach(a => {
     const label = a.querySelector('[data-label]'), txt = label.textContent; let t;
     a.addEventListener('click', async () => {
