@@ -242,40 +242,38 @@ h1,h2,p{margin:0}ul{margin:0;padding:0;list-style:none}
 }
 
 /* encabezado de área: línea, número y nombre en una fila */
-.area__head{display:grid;grid-template-columns:auto 1fr;align-items:baseline;column-gap:14px;padding-top:16px;border-top:1px solid var(--fg)}
+.area__head{display:grid;grid-template-columns:auto 1fr;align-items:baseline;column-gap:14px}
 .area__n{margin:0;font-size:.9rem}
 .area__t{font-size:clamp(2rem,8.5vw,4.2rem)}
 .area__d{grid-column:2;margin-top:8px;font-size:.95rem}
-@media (min-width:70rem){.area__head{grid-template-columns:1fr;padding-top:20px}.area__d{grid-column:1}.area__n{margin-bottom:6px}.area__t{font-size:clamp(2.6rem,3.6vw,4.2rem)}}
+@media (min-width:70rem){.area__head{grid-template-columns:1fr}.area__d{grid-column:1}.area__n{margin-bottom:6px}.area__t{font-size:clamp(2.6rem,3.6vw,4.2rem)}}
 
 /* celular */
 @media (max-width:47.99rem){
   .hero{padding-top:36px}
   .reel{display:flex;flex-wrap:wrap;gap:24px 10px;margin-top:32px}
   .reel__a{flex:1 1 100%}
-  .reel__b,.reel__c{flex:var(--r,.7) 1 0;min-width:0}
+  .reel__b,.reel__c{flex:var(--rg,700) 1 0;min-width:0}
   .reel .tile__frame{aspect-ratio:var(--r,auto)!important}
 
   .area{padding-top:64px}
   .area__in{gap:20px}
   .tiles{display:flex;flex-wrap:wrap;gap:24px 10px}
-  .tiles .tile{flex:var(--r,.8) 1 0;min-width:0}
+  .tiles .tile{flex:var(--rg,800) 1 0;min-width:0}
   .tiles .tile--wide{flex:1 1 100%;order:-1}
   .tiles .tile__frame{aspect-ratio:var(--r,auto)!important}
   .tiles .tile__frame img,.tiles .tile__frame video{height:100%;object-fit:cover}
   .tile--fit .tile__frame img,.tile--fit .tile__frame video{object-fit:contain}
 
-  /* Web y Movimiento: fila que se desliza, misma altura, sin recortes */
-  .tiles__row,.tiles--mov{display:flex;flex:1 1 100%;flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(var(--g) * -1);padding-inline:var(--g);scroll-padding-inline:var(--g);scrollbar-width:none;gap:10px}
-  .tiles__row::-webkit-scrollbar,.tiles--mov::-webkit-scrollbar{display:none}
-  .tiles__row .tile,.tiles--mov .tile{flex:0 0 auto!important;width:calc(260px * var(--r,.8));scroll-snap-align:start}
-  .tiles--mov .tile{width:200px}
+  /* Web y Movimiento: todo hacia abajo, en filas de igual altura (el JS decide los cortes) */
+  .tiles__row,.tiles--mov{display:flex;flex:1 1 100%;flex-wrap:wrap;gap:24px 10px}
+  .tiles__row .tile,.tiles--mov .tile{flex:var(--rg,563) 1 0;min-width:0}
   .tiles--mov .tile__frame{aspect-ratio:9/16!important}
-  .tiles--3 .tile:last-child{grid-column:auto}
-  .js .tiles__row .tile[data-rv],.js .tiles--mov .tile[data-rv]{clip-path:none}
+  .tiles .brk{flex:0 0 100%;height:0;margin-top:-24px}
 }
 .tiles__row{display:contents}
-@media (max-width:47.99rem){.tiles__row{display:flex}}
+.tiles .brk{display:none}
+@media (max-width:47.99rem){.tiles__row{display:flex}.tiles .brk{display:block}}
 .area__in>*,.tiles,.tiles__row{min-width:0}
-@media (max-width:47.99rem){.tiles__row .tile{width:min(calc(260px * var(--r,.8)),78vw)}.tiles__row .tile__frame{height:260px;aspect-ratio:auto!important}.tiles__row .tile__frame img,.tiles__row .tile__frame video{object-fit:cover}.tiles__row .tile--fit .tile__frame video,.tiles__row .tile--fit .tile__frame img{object-fit:contain}}
 .tiles--mov .tile__cap{font-size:.95rem!important;padding:0!important}
+@media (max-width:47.99rem){.tiles--mov .tile__cap{font-size:.8rem!important}}

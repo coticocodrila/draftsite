@@ -242,7 +242,25 @@
   /* proporción real de cada pieza (para el celular: misma altura sin recortes) */
   const RATIO = {"img/proyectos/audiovisual/videograbacion.jpg": 0.562, "img/proyectos/audiovisual/cdrp.jpg": 1.893, "img/proyectos/audiovisual/siegel.jpg": 0.562, "img/proyectos/audiovisual/obk.jpg": 0.562, "img/proyectos/audiovisual/animacion1.jpg": 0.562, "img/proyectos/panbo/video-01.jpg": 0.558, "img/proyectos/panbo/produccion.jpg": 0.75, "img/proyectos/panbo/video-02.jpg": 0.558, "img/proyectos/distrito-valpo/piezas.jpg": 1.778, "img/proyectos/distrito-valpo/principal.jpg": 1.778, "img/proyectos/distrito-valpo/mapa-celular.jpg": 1.778, "img/proyectos/micovitae/video.jpg": 0.562, "img/proyectos/emporio-organika/reel01.jpg": 0.562, "img/proyectos/emporio-organika/campana-03.jpg": 1.778, "img/proyectos/emporio-organika/principal.jpg": 1.778, "img/proyectos/emporio-organika/c01.jpg": 0.8, "img/proyectos/emporio-organika/campana-02.jpg": 1.778, "img/proyectos/emporio-organika/reel02.jpg": 0.562, "img/proyectos/420-genetics/reel.jpg": 0.562, "img/proyectos/dr-fungi/web-productos.jpg": 1.6, "img/proyectos/dr-fungi/web-desktop-video.jpg": 1.778, "img/proyectos/dr-fungi/web-desktop.jpg": 1.6, "img/proyectos/dr-fungi/web-producto.jpg": 1.6, "img/proyectos/dr-fungi/web-mobile-video.jpg": 0.562, "img/portadas/emporio-organika.jpg": 0.8, "img/portadas/distrito-valpo.jpg": 0.8, "f6454a230944027": 3.191, "6b29cd230944027": 1.928, "52150e230944027": 1.517, "5dbbb9230944027": 1.517, "3e8de0230944027": 1.997};
   const ratioOf = s => { s = key(s); if (RATIO[s]) return RATIO[s]; for (const k in RATIO) if (s.includes(k)) return RATIO[k]; return 0; };
-  $$('.tile').forEach(t => { const m = $('.tile__frame img, .tile__frame video', t); if (!m) return; const r = ratioOf(m.tagName === 'VIDEO' ? m.getAttribute('poster') : m.getAttribute('src')); if (r) t.style.setProperty('--r', r); });
+  $$('.tile').forEach(t => { const m = $('.tile__frame img, .tile__frame video', t); if (!m) return; const r = ratioOf(m.tagName === 'VIDEO' ? m.getAttribute('poster') : m.getAttribute('src')); if (r) { t.style.setProperty('--r', r); t.style.setProperty('--rg', Math.round(r * 1000)); } });
+  /* celular: piezas hacia abajo en filas de igual altura, sin recortes ni deslizar */
+  const mq = matchMedia('(max-width: 47.99rem)');
+  const rows = $$('.tiles__row, .tiles--mov');
+  const justify = () => {
+    rows.forEach(row => {
+      $$('.brk', row).forEach(b => b.remove());
+      if (!mq.matches) return;
+      const W = row.clientWidth, gap = 10, minH = 190;
+      const tiles = $$('.tile', row); let sum = 0, n = 0;
+      tiles.forEach((t, i) => {
+        const r = parseFloat(t.style.getPropertyValue('--r')) || (t.matches('.tiles--mov .tile') ? .5625 : .8);
+        const h = (W - gap * n) / (sum + r);
+        if (n && h < minH) { t.before(Object.assign(document.createElement('span'), { className: 'brk' })); sum = 0; n = 0; }
+        sum += r; n++;
+      });
+    });
+  };
+  justify(); mq.addEventListener('change', justify); addEventListener('resize', justify);
   try { localStorage.setItem('gemm-portada', JSON.stringify(shownNow)); } catch (e) {}
 
   /* ---- Ventana de proyecto ---- */
